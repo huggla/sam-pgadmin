@@ -9,8 +9,8 @@ ENV PGADMIN4_VERSION="3.0" \
 
 COPY ./start /start
 
-RUN apk --no-cache add python postgresql-libs \
- && apk --no-cache add --virtual .build-dependencies python-dev py-pip gcc musl-dev postgresql-dev wget ca-certificates \
+RUN apk --no-cache add python postgresql-libs py-pip \
+ && apk --no-cache add --virtual .build-dependencies python-dev gcc musl-dev postgresql-dev wget ca-certificates \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
  && pip --no-cache-dir install --upgrade pip \
