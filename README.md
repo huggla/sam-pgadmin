@@ -17,20 +17,23 @@ docker run -d -p 5050:5050 -v data:/etc/pgadmin --name pgadmin huggla/pgadmin-al
 ```
 Now you can remove the container when you are done with it, and next time you need pgAdmin, you can start a new one with the same volume option (`-v data:/etc/pgadmin`) and everything will still be there (the servers you added etc.), assuming you did not remove the named volume.
 
-## Pre-set environment variables (can be set at runtime)
+## Environment variables
+### pre-set runtime variables
+* VAR_LINUX_USER (postgres)
 * VAR_CONFIG_FILE (/etc/pgadmin/config_local.py)
-### Default Pgadmin configuration
+* VAR_FINAL_COMMAND ('/usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py')
 * VAR_param_DEFAULT_SERVER ('0.0.0.0')
 * VAR_param_SERVER_MODE (False)
 * VAR_param_ALLOW_SAVE_PASSWORD (False)
+* VAR_param_CONSOLE_LOG_LEVEL (30)
 * VAR_param_LOG_FILE ('/var/log/pgadmin4.log')
+* VAR_param_FILE_LOG_LEVEL (0)
 * VAR_param_SQLITE_PATH ('/etc/pgadmin/pgadmin4.db')
 * VAR_param_SESSION_DB_PATH ('/etc/pgadmin/sessions')
 * VAR_param_STORAGE_DIR ('/etc/pgadmin/storage')
 * VAR_param_UPGRADE_CHECK_ENABLED (False)
 
-## Optional environment variables
-### Pgadmin configuration
+### Optional runtime variables
 * VAR_param_&lt;parameter name&gt;
 
 ## Capabilities
