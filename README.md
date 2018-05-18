@@ -1,7 +1,7 @@
 **Note! I use Docker latest tag for development, which means that it isn't allways working. Date tags are stable.**
 
 # pgadmin-alpine
-Pgadmin 4 on Alpine. Note that pgAdmin will by default run in desktop mode (no multi-user and authentication).
+Pgadmin 4 on Alpine. Note that pgAdmin will by default run in desktop mode (no multi-user or authentication).
 
 ## How to use it
 ```
