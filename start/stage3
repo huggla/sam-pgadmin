@@ -4,14 +4,13 @@
 # . /start/stage2.functions
 # isFirstRun
 # VAR_*
-# ---------------------------------------------------------
 
 initPgadmin(){
    local sqliteFile="$(removeSingleQuotes "$VAR_param_SQLITE_PATH")"
    local sqliteDir="$(/usr/bin/dirname "$sqliteFile")"
    if [ ! -e "$sqliteDir" ] || [ -z "$(ls -A "$sqliteDir")" ]
    then
-      rm -rf "$sqliteDir"
+      /bin/rm -rf "$sqliteDir"
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
    fi
    tryMakeDir "$(removeSingleQuotes "$VAR_param_SESSION_DB_PATH")" write
