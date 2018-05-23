@@ -8,10 +8,18 @@
 initPgadmin(){
    local sqliteFile="$(removeSingleQuotes "$VAR_param_SQLITE_PATH")"
    local sqliteDir="$(/usr/bin/dirname "$sqliteFile")"
-   if [ ! -e "$sqliteDir" ] || [ -z "$(ls -A "$sqliteDir")" ]
+   if [ ! -e "$sqliteDir" ] || [ -z "$(ls -A "$sqliteDir" 2>/dev/null)" ]
    then
       /bin/rm -rf "$sqliteDir"
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
+      if [ -n "$VAR_INITIAL_PASSWORD" ]
+      then
+         echo "Generated password hash:"
+         local pwFile="$(makePwFileForUser user)"
+         /bin/cat "$pwFile"
+         echo
+         tryDelete "$pwFile"
+      fi         
    fi
    tryMakeDir "$(removeSingleQuotes "$VAR_param_SESSION_DB_PATH")" write
    if [ ! -s "$VAR_CONFIG_FILE" ]
