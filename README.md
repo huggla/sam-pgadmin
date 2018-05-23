@@ -28,9 +28,9 @@ Now you can remove the container when you are done with it, and next time you ne
 * VAR_param_CONSOLE_LOG_LEVEL (30)
 * VAR_param_LOG_FILE ('/var/log/pgadmin4.log')
 * VAR_param_FILE_LOG_LEVEL (0)
-* VAR_param_SQLITE_PATH ('/etc/pgadmin/pgadmin4.db')
-* VAR_param_SESSION_DB_PATH ('/etc/pgadmin/sessions')
-* VAR_param_STORAGE_DIR ('/etc/pgadmin/storage')
+* VAR_param_SQLITE_PATH ('/pgdata/sqlite/pgadmin4.db')
+* VAR_param_SESSION_DB_PATH ('/pgdata/sessions')
+* VAR_param_STORAGE_DIR ('/pgdata/storage')
 * VAR_param_UPGRADE_CHECK_ENABLED (False)
 
 ### Optional runtime variables
