@@ -8,6 +8,7 @@ ENV PGADMIN4_VERSION="3.0" \
     DATA_DIR="/pgdata"
 
 COPY ./start /start
+COPY ./bin /usr/local/bin
 
 RUN apk --no-cache add python postgresql-libs py-pip \
  && apk --no-cache add --virtual .build-dependencies python-dev gcc musl-dev postgresql-dev wget ca-certificates \
@@ -32,6 +33,6 @@ ENV VAR_LINUX_USER="postgres" \
     VAR_param_SESSION_DB_PATH="'$DATA_DIR/sessions'" \
     VAR_param_STORAGE_DIR="'$DATA_DIR/storage'" \
     VAR_param_UPGRADE_CHECK_ENABLED="False" \
-    VAR_FINAL_COMMAND="/usr/local/bin/pgadmin.sh"
+    VAR_FINAL_COMMAND="/usr/local/bin/pgadmin"
 
 USER starter
