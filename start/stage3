@@ -14,21 +14,8 @@ initPgadmin(){
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
       if [ "$VAR_param_SERVER_MODE" != "False" ] && [ -n "$VAR_email_initial" ] && [ -n "$VAR_password_initial" ]
       then
-         VAR_password_initial="$(makePwForUser initial)"
-         echo "***********************************************************"
-         if [ "$VAR_ENCRYPT_PW" == "yes" ]
-         then
-            echo "* Generated password hash:"
-            echo "$VAR_password_initial"
-         (sleep 10 && killall python) &
-         /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py <<-!
-            $VAR_email_initial
-            $VAR_password_initial
-         !
-         
-         Remove password/encryption salt and restart the container!
-         while true; do sleep 86400; done
-      fi         
+         initServerMode
+      fi
    fi
    tryMakeDir "$(removeSingleQuotes "$VAR_param_SESSION_DB_PATH")" write
    if [ ! -s "$VAR_CONFIG_FILE" ]
@@ -39,6 +26,16 @@ initPgadmin(){
    then
       /bin/ln -fs "$VAR_CONFIG_FILE" /usr/lib/python2.7/site-packages/pgadmin4/config_local.py
    fi
+}
+
+initServerMode(){
+   VAR_password_initial="$(makePwForUser initial)"
+   printInitPassword $VAR_password_initial
+   /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py <<-!
+      $VAR_email_initial
+      $VAR_password_initial
+   !
+   exit $?
 }
 
 if [ "$isFirstRun" == "true" ]
