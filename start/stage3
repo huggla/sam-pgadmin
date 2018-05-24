@@ -12,7 +12,7 @@ initPgadmin(){
    then
       /bin/rm -rf "$sqliteDir"
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
-      if [ "$VAR_param_SERVER_MODE" != "False" ] && [ -n "$VAR_email_initial" ] && [ -n "$VAR_password_initial" ]
+      if [ "$VAR_param_SERVER_MODE" != "False" ] && [ -n "$VAR_email_master" ] && [ -n "$VAR_password_master" ]
       then
          initServerMode
       fi
@@ -29,12 +29,14 @@ initPgadmin(){
 }
 
 initServerMode(){
-   VAR_password_initial="$(makePwForUser initial)"
-   printInitPassword $VAR_password_initial
-   /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py <<-!
-      $VAR_email_initial
-      $VAR_password_initial
+   VAR_password_master="$(makePwForUser master)"
+   printInitPassword $VAR_password_master
+   /usr/bin/env -i /usr/local/bin/sudo -u $VAR_LINUX_USER /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py <<-!
+      $VAR_email_master
+      $VAR_password_master
    !
+   tryRunStage 4
+   allVars quote > /environment/vars
    exit $?
 }
 
