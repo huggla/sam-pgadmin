@@ -12,13 +12,11 @@ initPgadmin(){
    then
       /bin/rm -rf "$sqliteDir"
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
-      if [ -n "$VAR_INITIAL_PASSWORD" ]
+      if [ "$VAR_param_SERVER_MODE" != "False" ] && [ -n "$VAR_email_initial" ] && [ -n "$VAR_password_initial" ]
       then
+         VAR_password_initial="$(makePwForUser initial)"
          echo "Generated password hash:"
-         local pwFile="$(makePwFileForUser user)"
-         /bin/cat "$pwFile"
-         echo
-         tryDelete "$pwFile"
+         echo "$VAR_password_initial"
       fi         
    fi
    tryMakeDir "$(removeSingleQuotes "$VAR_param_SESSION_DB_PATH")" write
