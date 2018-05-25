@@ -1,10 +1,10 @@
 #!/bin/sh
 
 /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py << !
-$VAR_email_server
-$pw
-$pw
-$pw
-$pw
-$pw
+$1
+$2
+$2
+$2
+$2
+$2
 !
