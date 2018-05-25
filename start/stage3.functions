@@ -45,5 +45,5 @@ initServerMode(){
 #	$pw
 #	!
 #   exit $?
-exec /usr/local/bin/pgadmin
+exec /usr/local/bin/pgadmin $VAR_email_server $pw
 }
