@@ -37,12 +37,13 @@ initDataDirs(){
 initServerMode(){
    local pw="$(makePwForUser server)"
    printInitPassword "$pw"
-   /usr/bin/env -i /usr/local/bin/sudo -u $VAR_LINUX_USER /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py <<-!
-	$VAR_email_server
-	$pw
-	$pw
-	!
    tryRunStage 4
    allVars quote > /environment/vars
-   exit $?
+#   /usr/bin/env -i /usr/local/bin/sudo -u $VAR_LINUX_USER /usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py <<-!
+#	$VAR_email_server
+#	$pw
+#	$pw
+#	!
+#   exit $?
+exec /usr/local/bin/pgadmin
 }
