@@ -30,4 +30,4 @@ Pgadmin 4 on Alpine. Will by default run in desktop mode (no multi-user or authe
 * VAR_SALT
 
 ## Capabilities
-Can drop all but CHOWN, FOWNER, SETGID and SETUID.
+Can drop all but CHOWN, DAC_OVERRIDE, FOWNER, SETGID and SETUID.
