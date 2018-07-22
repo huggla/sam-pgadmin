@@ -23,6 +23,7 @@ initConfigFile(){
 initDataDirs(){
    local sqliteDir="$(/usr/bin/dirname "$(removeSingleQuotes "$VAR_param_SQLITE_PATH")")"
    tryMakeDir "$(removeSingleQuotes "$VAR_param_SESSION_DB_PATH")" write
+   tryMakeDir "$(removeSingleQuotes "$VAR_param_STORAGE_DIR")" write
    if [ ! -e "$sqliteDir" ] || [ -z "$(ls -A "$sqliteDir" 2>/dev/null)" ]
    then
       /bin/rm -rf "$sqliteDir"
