@@ -1,11 +1,11 @@
 FROM huggla/alpine
 
-ARG PGADMIN4_VERSION="3.0"
+ARG PGADMIN4_VERSION="3.2"
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
-RUN apk --no-cache add python postgresql-libs py-pip \
- && apk --no-cache add --virtual .build-dependencies python-dev gcc musl-dev postgresql-dev wget ca-certificates \
+RUN apk --no-cache add python3 postgresql-libs \
+ && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
  && pip --no-cache-dir install --upgrade pip \
@@ -13,7 +13,7 @@ RUN apk --no-cache add python postgresql-libs py-pip \
  && rm -rf "$downloadDir" \
  && apk del .build-dependencies \
  && mkdir -p /var/lib/pgadmin \
- && ln /usr/bin/python2.7 /usr/local/bin/python
+ && ln /usr/bin/python3 /usr/local/bin/python
 
 ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
