@@ -1,6 +1,6 @@
 FROM huggla/alpine
 
-ARG PGADMIN4_VERSION="3.2"
+ARG PGADMIN4_VERSION="3.0"
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
