@@ -1,0 +1,10 @@
+initPgadminConfigFile(){
+   if [ ! -s "$VAR_CONFIG_FILE" ]
+   then
+      configFromVarGroup param > "$VAR_CONFIG_FILE"
+   fi
+   if [ "$VAR_CONFIG_FILE" != "/usr/lib/python2.7/site-packages/pgadmin4/config_local.py" ]
+   then
+      /bin/ln -fs "$VAR_CONFIG_FILE" /usr/lib/python2.7/site-packages/pgadmin4/config_local.py
+   fi
+}
