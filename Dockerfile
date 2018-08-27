@@ -1,5 +1,7 @@
 FROM huggla/alpine
 
+COPY ./rootfs /
+
 ARG PGADMIN4_VERSION="3.2"
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
