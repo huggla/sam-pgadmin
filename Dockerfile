@@ -3,7 +3,7 @@ FROM huggla/alpine
 USER root
 
 # Build-only variables
-ENV PGADMIN4_VERSION="3.0" \
+ARG PGADMIN4_VERSION="3.2" \
     CONFIG_DIR="/etc/pgadmin" \
     DATA_DIR="/pgdata"
 
