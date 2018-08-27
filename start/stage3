@@ -1,14 +1,14 @@
-# Passed from stage2:
+# Set in stage2:
 # ---------------------------------------------------------
 # set -e +a +m +s +i -f
-# . /start/stage2.functions
 # isFirstRun
-
-. /start/stage3.functions
+# VAR_*
+# All functions in /start/functions
 
 if [ "$isFirstRun" == "true" ]
 then
-   initPgadmin
+   initPgadminConfigFile
+   initPgadminDataDirs
 fi
 if [ "$(isInsecure)" == "true" ]
 then
