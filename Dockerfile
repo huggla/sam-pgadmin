@@ -1,13 +1,8 @@
 FROM huggla/alpine
 
-USER root
-
-# Build-only variables
-ARG PGADMIN4_VERSION="3.2" \
-    CONFIG_DIR="/etc/pgadmin" \
-    DATA_DIR="/pgdata"
-
-COPY ./rootfs /
+ARG PGADMIN4_VERSION="3.2"
+ARG CONFIG_DIR="/etc/pgadmin"
+ARG DATA_DIR="/pgdata"
 
 RUN apk --no-cache add python postgresql-libs py-pip \
  && apk --no-cache add --virtual .build-dependencies python-dev gcc musl-dev postgresql-dev wget ca-certificates \
