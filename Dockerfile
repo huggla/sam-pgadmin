@@ -8,8 +8,8 @@ RUN apk --no-cache add python3 postgresql-libs \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
- && pip --no-cache-dir install --upgrade pip \
- && pip --no-cache-dir install "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" \
+ && pip3 --no-cache-dir install --upgrade pip \
+ && pip3 --no-cache-dir install "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" \
  && rm -rf "$downloadDir" \
  && apk del .build-dependencies \
  && mkdir -p /var/lib/pgadmin \
