@@ -1,7 +1,5 @@
 FROM huggla/alpine as stage1
 
-COPY ./rootfs /
-
 ARG PGADMIN4_VERSION="3.2"
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
@@ -9,7 +7,7 @@ ARG DATA_DIR="/pgdata"
 RUN apk info > /before \
  && apk --no-cache add python3 postgresql-libs \
  && apk info > /after \
- && mkdir /rootfs \
+ && mkdir -p /rootfs/var/lib/pgadmin \
  && tar -cvp -f /installed_files.tar $(apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print "/"$2;}') \
  && tar -xvp -f /installed_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
@@ -20,10 +18,13 @@ RUN apk info > /before \
  && rm -rf "$downloadDir" /rootfs/usr/lib/python3.6/site-packages \
  && apk del .build-dependencies \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
- && mkdir -p /var/lib/pgadmin \
- && mv /usr/bin/python3.6 /usr/local/bin/ \
- && cd /usr/bin \
+ && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
+ && cd /rootfs/usr/bin \
  && ln -s ../local/bin/python3.6 python3.6
+
+FROM huggla/alpine
+
+COPY --from=stage1 /rootfs /
 
 ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
