@@ -15,7 +15,9 @@ RUN apk --no-cache add python3 postgresql-libs \
  && rm -rf "$downloadDir" \
  && apk del .build-dependencies \
  && mkdir -p /var/lib/pgadmin \
- && ln /usr/bin/python3 /usr/local/bin/python
+ && mv /usr/bin/python3.6 /usr/local/bin/ \
+ && cd /usr/bin \
+ && ln -s ../local/bin/python3.6 python3.6
 
 ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
@@ -29,6 +31,6 @@ ENV VAR_LINUX_USER="postgres" \
     VAR_param_SESSION_DB_PATH="'$DATA_DIR/sessions'" \
     VAR_param_STORAGE_DIR="'$DATA_DIR/storage'" \
     VAR_param_UPGRADE_CHECK_ENABLED="False" \
-    VAR_FINAL_COMMAND="/usr/local/bin/python /usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py"
+    VAR_FINAL_COMMAND="/usr/local/bin/python3.6 /usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py"
 
 USER starter
