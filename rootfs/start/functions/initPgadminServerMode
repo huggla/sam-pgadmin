@@ -3,7 +3,7 @@ initPgadminServerMode(){
    printInitPassword "$pw"
    tryRunStage 4
    allVars quote > /environment/vars
-   exec /usr/bin/env -i /usr/local/bin/sudo -u $VAR_LINUX_USER /usr/local/bin/python /usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py <<-eot
+   exec /usr/bin/env -i /usr/local/bin/sudo -u $VAR_LINUX_USER /usr/local/bin/python3.6 /usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py <<-eot
 	$VAR_email_server
 	$pw
 	$pw
