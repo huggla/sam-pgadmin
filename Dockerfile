@@ -8,9 +8,8 @@ RUN apk info > /before \
  && apk --no-cache add python3 postgresql-libs \
  && apk info > /after \
  && mkdir -p /rootfs/var/lib/pgadmin \
- && cd / \
- && tar -cvp -f /installed_files.tar $(apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}') \
- && tar -xvp -f /installed_files.tar -C /rootfs/ \
+ && apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print "/"$2;}') > /tarfiles \
+ && tar -xvp -f /installed_files.tar -C /rootfs/ -T /tarfiles \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
