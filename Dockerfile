@@ -29,6 +29,6 @@ ENV VAR_LINUX_USER="postgres" \
     VAR_param_SESSION_DB_PATH="'$DATA_DIR/sessions'" \
     VAR_param_STORAGE_DIR="'$DATA_DIR/storage'" \
     VAR_param_UPGRADE_CHECK_ENABLED="False" \
-    VAR_FINAL_COMMAND="/usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py"
+    VAR_FINAL_COMMAND="/usr/local/bin/python /usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py"
 
 USER starter
