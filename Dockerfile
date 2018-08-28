@@ -42,3 +42,5 @@ ENV VAR_LINUX_USER="postgres" \
     VAR_FINAL_COMMAND="/usr/local/bin/python3.6 /usr/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py"
 
 USER starter
+
+ONBUILD USER root
