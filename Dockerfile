@@ -8,8 +8,8 @@ RUN apk info > /before \
  && apk --no-cache add python3 postgresql-libs \
  && apk info > /after \
  && mkdir -p /rootfs/var/lib/pgadmin \
- && apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print "/"$2;}' > /tarfiles \
- && tar -cvpP -f /installed_files.tar -T /tarfiles \
+ && apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /tarfiles \
+ && tar -cvp -f /installed_files.tar -T /tarfiles -C / \
  && tar -xvp -f /installed_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
