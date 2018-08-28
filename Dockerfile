@@ -7,7 +7,7 @@ ARG DATA_DIR="/pgdata"
 RUN apk info > /before \
  && apk --no-cache add python3 postgresql-libs \
  && apk info > /after \
- && mkdir -p /rootfs/var/lib/pgadmin \
+ && mkdir -p /rootfs/var/lib/pgadmin /rootfs/usr/local/bin \
  && apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /tarfiles \
  && tar -cvp -f /installed_files.tar -T /tarfiles -C / \
  && tar -xvp -f /installed_files.tar -C /rootfs/ \
