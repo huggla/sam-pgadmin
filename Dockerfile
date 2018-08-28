@@ -1,4 +1,4 @@
-FROM huggla/alpine
+FROM huggla/alpine as stage1
 
 COPY ./rootfs /
 
@@ -6,14 +6,20 @@ ARG PGADMIN4_VERSION="3.2"
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
-RUN apk --no-cache add python3 postgresql-libs \
+RUN apk info > /before \
+ && apk --no-cache add python3 postgresql-libs \
+ && apk info > /after \
+ && mkdir /rootfs \
+ && tar -cvp -f /installed_files.tar $(apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print "/"$2;}') \
+ && tar -xvp -f /installed_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" \
- && rm -rf "$downloadDir" \
+ && rm -rf "$downloadDir" /rootfs/usr/lib/python3.6/site-packages \
  && apk del .build-dependencies \
+ && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && mkdir -p /var/lib/pgadmin \
  && mv /usr/bin/python3.6 /usr/local/bin/ \
  && cd /usr/bin \
