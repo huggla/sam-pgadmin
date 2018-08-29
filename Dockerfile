@@ -1,4 +1,4 @@
-FROM huggla/alpine as stage1
+FROM huggla/alpine:20180829-edge as stage1
 
 ARG PGADMIN4_VERSION="3.2"
 
@@ -23,7 +23,7 @@ RUN apk info > /before \
  && cd /rootfs/usr/bin \
  && ln -s ../local/bin/python3.6 python3.6
 
-FROM huggla/alpine
+FROM huggla/alpine:20180829-edge
 
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
