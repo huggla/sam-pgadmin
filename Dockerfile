@@ -4,6 +4,8 @@ ARG PGADMIN4_VERSION="3.2"
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
+COPY ./rootfs /rootfs
+
 RUN apk info > /before \
  && apk --no-cache add python3 postgresql-libs \
  && apk info > /after \
