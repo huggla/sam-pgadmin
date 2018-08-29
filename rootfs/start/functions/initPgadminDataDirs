@@ -8,7 +8,7 @@ initPgadminDataDirs(){
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
       if [ "$VAR_param_SERVER_MODE" != "False" ] && [ -n "$VAR_email_server" ] && [ -n "$VAR_password_server" ]
       then
-         initServerMode
+         initPgadminServerMode
       fi
    fi
 }
