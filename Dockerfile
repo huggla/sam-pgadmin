@@ -1,8 +1,6 @@
 FROM huggla/alpine as stage1
 
 ARG PGADMIN4_VERSION="3.2"
-ARG CONFIG_DIR="/etc/pgadmin"
-ARG DATA_DIR="/pgdata"
 
 COPY ./rootfs /rootfs
 
@@ -26,6 +24,9 @@ RUN apk info > /before \
  && ln -s ../local/bin/python3.6 python3.6
 
 FROM huggla/alpine
+
+ARG CONFIG_DIR="/etc/pgadmin"
+ARG DATA_DIR="/pgdata"
 
 COPY --from=stage1 /rootfs /
 
