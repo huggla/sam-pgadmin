@@ -6,9 +6,16 @@ initPgadminDataDirs(){
    then
       /bin/rm -rf "$sqliteDir"
       tryMakeDir "$(/usr/bin/dirname "$sqliteDir")" write
-      if [ "$VAR_param_SERVER_MODE" != "False" ] && [ -n "$VAR_email_server" ] && [ -n "$VAR_password_server" ]
+      if [ "$VAR_param_SERVER_MODE" == "True" ] && [ -n "$VAR_email_server" ] && [ -n "$VAR_password_server" ]
       then
-         initPgadminServerMode
+         echo "Creating new server mode data store."
+         if [ -z "$VAR_email_server" ]
+         then
+            echo "Error: Environment variable VAR_email_server is missing!"
+            exit 1
+         else
+            initPgadminServerMode
+         fi
       fi
    fi
 }
