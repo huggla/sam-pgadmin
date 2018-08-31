@@ -1,16 +1,17 @@
 FROM huggla/alpine as stage1
 
 ARG PGADMIN4_VERSION="3.2"
+ARG APKS="python3 postgresql-libs"
 
 COPY ./rootfs /rootfs
 
-RUN apk info > /before \
- && apk --no-cache add python3 postgresql-libs \
- && apk info > /after \
+RUN apk info > /pre_apks.list \
+ && apk --no-cache add $APKS \
+ && apk info > /post_apks.list \
+ && apk manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
+ && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
+ && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && mkdir -p /rootfs/var/lib/pgadmin /rootfs/usr/local/bin \
- && apk manifest $(diff /before /after | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /tarfiles \
- && tar -cvp -f /installed_files.tar -T /tarfiles -C / \
- && tar -xvp -f /installed_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
