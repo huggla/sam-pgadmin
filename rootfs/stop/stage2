@@ -1,0 +1,2 @@
+echo "PID = $PID"
+echo "SIG = $SIG"
