@@ -26,7 +26,9 @@ RUN find bin usr lib etc var home sbin root run srv -type d -print0 | sed -e 's|
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
- && ln -s ../local/bin/python3.6 python3.6
+ && ln -s ../local/bin/python3.6 python3.6 \
+ && apk --no-cache --root /rootfs del apk-tools \
+ && rm -r /rootfs/lib/apk /var/cache
 
 FROM huggla/alpine
 
