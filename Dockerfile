@@ -5,7 +5,7 @@ ARG APKS="python3 postgresql-libs"
 
 COPY ./rootfs /rootfs
 
-RUN find bin usr lib etc var home sbin root run srv tmp -type d -print0 | sed -e 's|^|/rootfs/|' | xargs -0 mkdir -p \
+RUN find bin usr lib etc var home sbin root run srv -type d -print0 | sed -e 's|^|/rootfs/|' | xargs -0 mkdir -p \
  && cp -a /lib/apk/db /rootfs/lib/apk/ \
  && cp -a /etc/apk /rootfs/etc/ \
  && cd / \
@@ -14,11 +14,6 @@ RUN find bin usr lib etc var home sbin root run srv tmp -type d -print0 | sed -e
  && apk --no-cache --quiet info | xargs apk --quiet --no-cache --root /rootfs fix \
  && apk --no-cache --quiet --root /rootfs add $APKS \
  && rm /rootfs/usr/bin/sudo /rootfs/usr/bin/dash \
-# && apk info > /post_apks.list \
-# && diff /package.list /post_apks.list | sed -e '/[+@-][+@-]/d' -e 's/.//' > /rootfs/package.list
-# && apk manifest $(diff /package.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
-# && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
-# && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && mkdir -p /rootfs/var/lib/pgadmin \
  && apk --no-cache --quiet add $APKS \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
