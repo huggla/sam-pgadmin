@@ -10,13 +10,15 @@ RUN apk info \
  && mv /lib/apk/db /rootfs/lib/apk/ \
  && ln -s /rootfs/lib/apk/db /lib/apk/ \
  && apk info \
- && exit 1 \
  && apk info > /pre_apks.list \
  && apk --no-cache add $APKS \
  && apk info > /post_apks.list \
  && apk manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
+ && apk info \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
+ && apk info \
+ && exit 1 \
  && mkdir -p /rootfs/var/lib/pgadmin /rootfs/usr/local/bin \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
