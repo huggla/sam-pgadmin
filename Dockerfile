@@ -13,7 +13,7 @@ RUN find bin usr lib etc var home sbin root run srv tmp -type d -print0 | sed -e
  && cp -a /usr/bin /usr/sbin /rootfs/usr/ \
  && apk --no-cache --quiet info | xargs apk --quiet --no-cache --root /rootfs fix \
  && apk --no-cache --quiet --root /rootfs add $APKS \
- && rm /rootfs/usr/bin/sudo /rootfs/usr/local/bin/sudo /rootfs/usr/bin/dash /rootfs/usr/local/bin/dash \
+ && rm /rootfs/usr/bin/sudo /rootfs/usr/bin/dash \
 # && apk info > /post_apks.list \
 # && diff /package.list /post_apks.list | sed -e '/[+@-][+@-]/d' -e 's/.//' > /rootfs/package.list
 # && apk manifest $(diff /package.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
