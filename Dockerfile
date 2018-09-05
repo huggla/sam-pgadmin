@@ -22,7 +22,7 @@ RUN find bin usr lib etc var home sbin root run srv -type d -print0 | sed -e 's|
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" \
  && rm -rf "$downloadDir" /rootfs/usr/lib/python3.6/site-packages \
- && apk del .build-dependencies \
+ && apk purge .build-dependencies \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
