@@ -20,6 +20,7 @@ RUN find bin usr lib etc var home sbin root run srv tmp -type d -print0 | sed -e
 # && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
 # && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && mkdir -p /rootfs/var/lib/pgadmin \
+ && apk --no-cache --quiet add $APKS \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
