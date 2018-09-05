@@ -5,7 +5,9 @@ ARG APKS="python3 postgresql-libs"
 
 COPY ./rootfs /rootfs
 
-RUN apk info > /pre_apks.list \
+RUN rm -r /lib/apk/db \
+ && ln -s /rootfs/lib/apk/db /lib/apk/ \
+ && apk info > /pre_apks.list \
  && apk --no-cache add $APKS \
  && apk info > /post_apks.list \
  && apk manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
