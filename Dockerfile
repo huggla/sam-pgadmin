@@ -5,9 +5,12 @@ ARG APKS="python3 postgresql-libs"
 
 COPY ./rootfs /rootfs
 
-RUN mkdir -p /rootfs/lib/apk \
+RUN apk info \
+ && mkdir -p /rootfs/lib/apk \
  && mv /lib/apk/db /rootfs/lib/apk/ \
  && ln -s /rootfs/lib/apk/db /lib/apk/ \
+ && apk info \
+ && exit 1 \
  && apk info > /pre_apks.list \
  && apk --no-cache add $APKS \
  && apk info > /post_apks.list \
