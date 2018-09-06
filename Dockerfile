@@ -1,34 +1,28 @@
-FROM huggla/alpine as stage1
+FROM huggla/alpine:skel as stage1
 
 ARG PGADMIN4_VERSION="3.2"
 ARG APKS="python3 postgresql-libs"
 
 COPY ./rootfs /rootfs
 
-RUN find bin usr lib etc var home sbin root run srv -type d -print0 | sed -e 's|^|/rootfs/|' | xargs -0 mkdir -p \
- && cp -a /lib/apk/db /rootfs/lib/apk/ \
- && cp -a /etc/apk /rootfs/etc/ \
- && cd / \
- && cp -a /bin /sbin /rootfs/ \
- && cp -a /usr/bin /usr/sbin /rootfs/usr/ \
- && apk --no-cache --quiet info | xargs apk --quiet --no-cache --root /rootfs fix \
- && apk --no-cache --quiet --root /rootfs add $APKS \
- && rm /rootfs/usr/bin/sudo /rootfs/usr/bin/dash \
+RUN apk info > /pre_apks.list \
+ && apk --no-cache add $APKS \
+ && apk info > /post_apks.list \
+ && apk manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
+ && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
+ && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && mkdir -p /rootfs/var/lib/pgadmin \
- && apk --no-cache --quiet add $APKS \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" \
- && rm -rf "$downloadDir" /rootfs/usr/lib/python3.6/site-packages \
+ && rm -rf "$downloadDir" \
  && apk del .build-dependencies \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
- && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
- && cd /rootfs/usr/bin \
- && ln -s ../local/bin/python3.6 python3.6
+ && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/
 
-FROM huggla/alpine
+FROM huggla/alpine-skel
 
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
