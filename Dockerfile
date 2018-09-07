@@ -1,21 +1,19 @@
 FROM huggla/alpine as stage1
+FROM huggla/alpine-official as stage2
 
-ARG PGADMIN4_VERSION="3.2"
-ARG APKS="python3 postgresql-libs"
-
+COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
 
-RUN find bin usr lib etc var home sbin root run srv -type d -print0 | sed -e 's|^|/rootfs/|' | xargs -0 mkdir -p \
- && cp -a /lib/apk/db /rootfs/lib/apk/ \
- && cp -a /etc/apk /rootfs/etc/ \
- && cd / \
- && cp -a /bin /sbin /rootfs/ \
- && cp -a /usr/bin /usr/sbin /rootfs/usr/ \
- && apk --no-cache --quiet info | xargs apk --quiet --no-cache --root /rootfs fix \
- && apk --no-cache --quiet --root /rootfs add $APKS \
- && rm /rootfs/usr/bin/sudo /rootfs/usr/bin/dash \
- && mkdir -p /rootfs/var/lib/pgadmin \
- && apk --no-cache --quiet add $APKS \
+ARG PGADMIN4_VERSION="3.3"
+ARG APKS="python3 postgresql-libs"
+
+RUN apk info > /pre_apks.list \
+ && apk --no-cache add $APKS \
+ && apk info > /post_apks.list \
+ && apk manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
+ && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
+ && tar -xvp -f /apks_files.tar -C /rootfs/ \
+ && mkdir -p /rootfs/var/lib/pgadmin /rootfs/usr/local/bin \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
  && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
@@ -30,10 +28,10 @@ RUN find bin usr lib etc var home sbin root run srv -type d -print0 | sed -e 's|
 
 FROM huggla/alpine
 
+COPY --from=stage2 /rootfs /
+
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
-
-COPY --from=stage1 /rootfs /
 
 ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
