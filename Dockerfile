@@ -5,7 +5,7 @@ COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
 
 ARG PGADMIN4_VERSION="3.3"
-ARG APKS="python3 postgresql-libs"
+ARG APKS="python3 postgresql-libs libressl2.7-libssl"
 
 RUN apk info > /pre_apks.list \
  && apk --no-cache add $APKS \
