@@ -1,5 +1,5 @@
-FROM huggla/alpine as stage1
-FROM huggla/alpine-official as stage2
+FROM huggla/alpine:20180907-edge as stage1
+FROM huggla/alpine-official:20180907-edge as stage2
 
 COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
@@ -26,7 +26,7 @@ RUN apk info > /pre_apks.list \
  && cd /rootfs/usr/bin \
  && ln -s ../local/bin/python3.6 python3.6
 
-FROM huggla/alpine
+FROM huggla/alpine:20180907-edge
 
 COPY --from=stage2 /rootfs /
 
