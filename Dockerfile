@@ -30,7 +30,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
  && cd /tmp \
- && git clone https://git.postgresql.org/git/pgadmin4.git
+ && git clone https://git.postgresql.org/git/pgadmin4.git \
  && mkdir /pgadmin4 \
  && cp -a /tmp/pgadmin4/requirements.txt /pgadmin4/ \
  && cd /pgadmin4 \
