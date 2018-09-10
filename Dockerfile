@@ -1,4 +1,4 @@
-FROM huggla/alpine as stage1
+FROM huggla/alpine:20180907-edge as stage1
 
 FROM node:6 AS stage2
 
@@ -9,7 +9,7 @@ RUN apt-get install git \
  && yarn run bundle \
  && rm -rf ./ycache ./pgadmin/static/js/generated/.cache
 
-FROM huggla/alpine-official as stage3
+FROM huggla/alpine-official:20180907-edge as stage3
 
 COPY --from=stage1 / /rootfs
 COPY --from=stage2 /pgadmin4/web/pgadmin/static/js/generated/ /pgadmin4/web/pgadmin/static/js/generated/
@@ -51,7 +51,7 @@ RUN apk info > /pre_apks.list \
 # && cd /rootfs/usr/bin \
 # && ln -s ../local/bin/python3.6 python3.6
 
-#FROM huggla/alpine
+#FROM huggla/alpine:20180907-edge
 
 #COPY --from=stage2 /rootfs /
 
