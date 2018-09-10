@@ -12,7 +12,6 @@ RUN apt-get install git \
 FROM huggla/alpine-official:20180907-edge as stage3
 
 COPY --from=stage1 / /rootfs
-COPY --from=stage2 /pgadmin4/web/pgadmin/static/js/generated/ /pgadmin4/web/pgadmin/static/js/generated/
 COPY ./rootfs /rootfs
 
 ARG PGADMIN4_VERSION="3.3"
@@ -29,9 +28,11 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
- && git clone https://git.postgresql.org/git/pgadmin4.git \
+ && git clone https://git.postgresql.org/git/pgadmin4.git
+ 
+ COPY --from=stage2 /pgadmin4/web/pgadmin/static/js/generated/ /pgadmin4/web/pgadmin/static/js/generated/
 # && wget "https://git.postgresql.org/gitweb/?p=pgadmin4.git;a=blob_plain;f=requirements.txt;h=38646fbb4111fddb2c373a949ed59b429c398681;hb=HEAD" \
- && pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
+ RUN pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
  && apk --no-cache del .build-dependencies \
  && cp -a /pgadmin4/web /rootfs/pgadmin4 \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
