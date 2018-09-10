@@ -1,9 +1,11 @@
 FROM huggla/alpine as stage1
 
 FROM node:6 AS stage2
-COPY ./pgadmin4/web/ /pgadmin4/web/
-WORKDIR /pgadmin4/web
-RUN yarn install --cache-folder ./ycache --verbose \
+
+RUN apt-get install git \
+ && git clone https://git.postgresql.org/git/pgadmin4.git \
+ && cd /pgadmin4/web \
+ && yarn install --cache-folder ./ycache --verbose \
  && yarn run bundle \
  && rm -rf ./ycache ./pgadmin/static/js/generated/.cache
 
@@ -28,7 +30,7 @@ RUN apk info > /pre_apks.list \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
  && git clone https://git.postgresql.org/git/pgadmin4.git \
-	# && wget "https://git.postgresql.org/gitweb/?p=pgadmin4.git;a=blob_plain;f=requirements.txt;h=38646fbb4111fddb2c373a949ed59b429c398681;hb=HEAD" \
+# && wget "https://git.postgresql.org/gitweb/?p=pgadmin4.git;a=blob_plain;f=requirements.txt;h=38646fbb4111fddb2c373a949ed59b429c398681;hb=HEAD" \
  && pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
  && apk --no-cache del .build-dependencies \
  && cp -a /pgadmin4/web /rootfs/pgadmin4 \
