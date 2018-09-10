@@ -26,10 +26,10 @@ RUN apk info > /pre_apks.list \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git \
  && pip3 --no-cache-dir install --upgrade pip \
- && pip --no-cache-dir install gunicorn \
+ && pip3 --no-cache-dir install gunicorn \
  && git clone https://git.postgresql.org/git/pgadmin4.git \
 	# && wget "https://git.postgresql.org/gitweb/?p=pgadmin4.git;a=blob_plain;f=requirements.txt;h=38646fbb4111fddb2c373a949ed59b429c398681;hb=HEAD" \
- && pip install --no-cache-dir -r /pgadmin4/requirements.txt \
+ && pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
  && apk --no-cache del .build-dependencies \
  && cp -a /pgadmin4/web /rootfs/pgadmin4 \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
