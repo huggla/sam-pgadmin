@@ -18,12 +18,12 @@ COPY ./rootfs /rootfs
 ARG PGADMIN4_VERSION="3.3"
 ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto"
 
-RUN apk info > /pre_apks.list \
+RUN apk --no-cache --quiet info > /pre_apks.list \
  && sed -i '/libressl2.7-libssl/d' /pre_apks.list \
  && sed -i '/libressl2.7-libcrypto/d' /pre_apks.list \
  && apk --no-cache add $APKS \
- && apk --no-cache info > /post_apks.list \
- && apk --no-cache manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
+ && apk --no-cache --quiet info > /post_apks.list \
+ && apk --no-cache --quiet manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git \
