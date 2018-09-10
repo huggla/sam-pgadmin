@@ -26,7 +26,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache --quiet manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
- && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git \
+ && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git python3-dev \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
  && cd /tmp \
