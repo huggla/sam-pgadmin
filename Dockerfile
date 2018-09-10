@@ -1,7 +1,16 @@
 FROM huggla/alpine as stage1
-FROM huggla/alpine-official as stage2
+
+FROM node:6 AS stage2
+COPY ./pgadmin4/web/ /pgadmin4/web/
+WORKDIR /pgadmin4/web
+RUN yarn install --cache-folder ./ycache --verbose \
+ && yarn run bundle \
+ && rm -rf ./ycache ./pgadmin/static/js/generated/.cache
+
+FROM huggla/alpine-official as stage3
 
 COPY --from=stage1 / /rootfs
+COPY --from=stage2 /pgadmin4/web/pgadmin/static/js/generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 COPY ./rootfs /rootfs
 
 ARG PGADMIN4_VERSION="3.3"
@@ -15,6 +24,8 @@ RUN apk info > /pre_apks.list \
  && apk manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
+ && pip3 --no-cache-dir install --upgrade pip \
+ 
  && mkdir -p /rootfs/var/lib/pgadmin \
  && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
  && downloadDir="$(mktemp -d)" \
