@@ -13,6 +13,7 @@ FROM huggla/alpine-official:20180907-edge as stage3
 
 COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
+COPY --from=stage2 /pgadmin4/web/pgadmin/static/js/generated/ /tmp/generated/
 
 ARG PGADMIN4_VERSION="3.3"
 ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto"
@@ -28,16 +29,19 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
+ && cd /tmp \
  && git clone https://git.postgresql.org/git/pgadmin4.git
- 
- COPY --from=stage2 /pgadmin4/web/pgadmin/static/js/generated/ /pgadmin4/web/pgadmin/static/js/generated/
-# && wget "https://git.postgresql.org/gitweb/?p=pgadmin4.git;a=blob_plain;f=requirements.txt;h=38646fbb4111fddb2c373a949ed59b429c398681;hb=HEAD" \
- RUN pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
- && apk --no-cache del .build-dependencies \
- && cp -a /pgadmin4/web /rootfs/pgadmin4 \
- && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
- && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
- && python3.6 -O -m compileall /rootfs/pgadmin4
+ && mkdir /pgadmin4 \
+ && cp -a /tmp/pgadmin4/requirements.txt /pgadmin4/ \
+ && cd /pgadmin4 \
+ && pip3 install --no-cache-dir -r requirements.txt \
+# && apk --no-cache del .build-dependencies \
+ && cp -a /tmp/pgadmin4/web /pgadmin4 \
+ && cp -a /tmp/generated /pgadmin4/web/pgadmin/static/js/ \
+ && cp -a /tmp/pgadmin4/pkg/docker/run_pgadmin.py /pgadmin4/ \
+ && cp -a /tmp/pgadmin4/pkg/docker/config_distro.py /pgadmin4/ \
+ && pip3 install --no-cache-dir -r requirements.txt \
+ && python3.6 -O -m compileall /pgadmin4
 
 # && mkdir -p /rootfs/var/lib/pgadmin \
 # && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
