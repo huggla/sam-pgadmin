@@ -7,10 +7,10 @@ ARG PGADMIN4_TAG="REL-3_3"
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git \
  && git clone --branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git \
- && apt-get purge -y --auto-remove git \
  && yarn --cwd /pgadmin4/web install \
  && yarn --cwd /pgadmin4/web run bundle \
  && yarn cache clean \
+ && apt-get purge -y --auto-remove git \
  && mv /pgadmin4/web/pgadmin/static/js/generated / \
  && rm -rf /pgadmin4
 
