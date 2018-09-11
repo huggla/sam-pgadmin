@@ -49,9 +49,9 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && cd /rootfs/usr/local/bin \
  && ln -s python3.6 python
 
-FROM huggla/alpine:20180907-edge
+#FROM huggla/alpine:20180907-edge
 
-COPY --from=stage3 /rootfs /
+#COPY --from=stage3 /rootfs /
 
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
