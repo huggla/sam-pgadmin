@@ -35,11 +35,10 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
  && git clone --branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git \
- && cp -a /pgadmin4/requirements.txt /rootfs/pgadmin4/ \
- && exit
-# && pip3 install --no-cache-dir -r requirements.txt \
-# && apk --no-cache del .build-dependencies \
-# && cp -a /tmp/pgadmin4/web /pgadmin4 \
+# && cp -a /pgadmin4/requirements.txt /rootfs/pgadmin4/ \
+ && pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
+ && apk --no-cache del .build-dependencies \
+ && cp -a /pgadmin4/web /rootfs/pgadmin4/ \
 # && cp -a /tmp/generated /pgadmin4/web/pgadmin/static/js/ \
 # && cp -a /tmp/pgadmin4/pkg/docker/run_pgadmin.py /pgadmin4/ \
 # && cp -a /tmp/pgadmin4/pkg/docker/config_distro.py /pgadmin4/ \
