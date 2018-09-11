@@ -40,10 +40,10 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache del .build-dependencies \
  && cp -a /pgadmin4/web /rootfs/pgadmin4/ \
 # && cp -a /tmp/generated /pgadmin4/web/pgadmin/static/js/ \
-# && cp -a /tmp/pgadmin4/pkg/docker/run_pgadmin.py /pgadmin4/ \
-# && cp -a /tmp/pgadmin4/pkg/docker/config_distro.py /pgadmin4/ \
+ && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
+ && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
 # && pip3 install --no-cache-dir -r requirements.txt \
-# && python3.6 -O -m compileall /pgadmin4
+ && python3.6 -O -m compileall /rootfs/pgadmin4
 
 # && mkdir -p /rootfs/var/lib/pgadmin \
 # && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
