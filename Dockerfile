@@ -40,24 +40,18 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && cp -a /pgadmin4/web/* /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
- && python3.6 -O -m compileall /rootfs/pgadmin4
+ && rm -rf /pgadmin \
+ && python3.6 -O -m compileall /rootfs/pgadmin4 \
+ && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
+ && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
+ && cd /rootfs/usr/bin \
+ && ln -s ../local/bin/python3.6 python3.6 \
+ && cd /rootfs/usr/local/bin \
+ && ln -s python3.6 python
 
-# && mkdir -p /rootfs/var/lib/pgadmin \
-# && apk --no-cache add --virtual .build-dependencies python3-dev gcc musl-dev postgresql-dev wget ca-certificates libffi-dev make \
-# && downloadDir="$(mktemp -d)" \
-# && wget -O "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v${PGADMIN4_VERSION}/pip/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl \
-# && pip3 --no-cache-dir install --upgrade pip \
-# && pip3 --no-cache-dir install "$downloadDir/pgadmin4-${PGADMIN4_VERSION}-py2.py3-none-any.whl" \
-# && rm -rf "$downloadDir" /rootfs/usr/lib/python3.6/site-packages \
-# && apk del .build-dependencies \
-# && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
-# && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
-# && cd /rootfs/usr/bin \
-# && ln -s ../local/bin/python3.6 python3.6
+FROM huggla/alpine:20180907-edge
 
-#FROM huggla/alpine:20180907-edge
-
-#COPY --from=stage2 /rootfs /
+COPY --from=stage2 /rootfs /
 
 #ARG CONFIG_DIR="/etc/pgadmin"
 #ARG DATA_DIR="/pgdata"
