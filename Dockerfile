@@ -40,6 +40,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && cp -a /pgadmin4/web/* /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
+ && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
  && rm -rf /pgadmin \
  && python3.6 -O -m compileall /rootfs/pgadmin4 \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
