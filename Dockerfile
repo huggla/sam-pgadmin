@@ -21,7 +21,7 @@ COPY ./rootfs /rootfs
 COPY --from=stage2 /generated/ /rootfs/pgadmin4/web/pgadmin/static/js/generated/
 
 ARG PGADMIN4_TAG="REL-3_3"
-ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi"
+ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl"
 
 RUN apk --no-cache --quiet info > /pre_apks.list \
  && sed -i '/libressl2.7-libssl/d' /pre_apks.list \
