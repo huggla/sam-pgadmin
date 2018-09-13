@@ -50,6 +50,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && cd /rootfs/usr/local/bin \
  && ln -s python3.6 python
 
+COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 #FROM huggla/alpine:20180907-edge
 
 #COPY --from=stage3 /rootfs /
