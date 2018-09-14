@@ -21,7 +21,7 @@ COPY ./rootfs /rootfs
 COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 
 ARG PGADMIN4_TAG="REL-3_3"
-ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl"
+ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl build-base postgresql-dev libffi-dev git python3-dev"
 
 RUN apk --no-cache --quiet info > /pre_apks.list \
  && sed -i '/libressl2.7-libssl/d' /pre_apks.list \
@@ -42,8 +42,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
 WORKDIR /pgadmin4 
 ENV PYTHONPATH=/pgadmin4
  
-RUN apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git python3-dev \
- && pip3 --no-cache-dir install --upgrade pip \
+RUN pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
  && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
