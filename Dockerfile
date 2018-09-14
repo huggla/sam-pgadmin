@@ -28,8 +28,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache --quiet manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
- && mv /rootfs/pgadmin4 /pgadmin4 \
- && ls -la /pgadmin4
+ && mv /rootfs/pgadmin4 /
  
 WORKDIR /pgadmin4 
 ENV PYTHONPATH=/pgadmin4
@@ -39,7 +38,7 @@ RUN pip3 --no-cache-dir install --upgrade pip \
  && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/
  
-RUN pip3 install --no-cache-dir -r requirements.txt \
+RUN pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
  && mkdir -p /var/lib/pgadmin \
  && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
