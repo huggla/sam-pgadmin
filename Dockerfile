@@ -28,7 +28,8 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache --quiet manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
- && mv /rootfs/pgadmin4 /
+ && mv /rootfs/pgadmin4 /pgadmin4 \
+ && ls -la /pgadmin4
  
 WORKDIR /pgadmin4 
 ENV PYTHONPATH=/pgadmin4
