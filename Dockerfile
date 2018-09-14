@@ -16,7 +16,10 @@ FROM huggla/alpine-official:20180907-edge as stage3
 
 COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
-COPY --from=stage2 /pgadmin4/requirements.txt /pgadmin4/pkg/docker/run_pgadmin.py /pgadmin4/pkg/docker/config_distro.py /pgadmin4/web/* /rootfs/pgadmin4/
+COPY --from=stage2 /pgadmin4/requirements.txt /rootfs/pgadmin4/
+COPY --from=stage2 /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/
+COPY --from=stage2 /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/
+COPY --from=stage2 /pgadmin4/web/* /rootfs/pgadmin4/
 
 ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl build-base postgresql-dev libffi-dev git python3-dev"
 
