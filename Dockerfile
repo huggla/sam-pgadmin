@@ -36,7 +36,9 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && pip3 --no-cache-dir install gunicorn \
  && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
- && pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
+ && mkdir /pgadmin4/pgadmin/tillf \
+ && cd /pgadmin4/pgadmin/tillf \
+ && pip3 install --no-cache-dir -r requirements.txt \
  && mkdir -p /var/lib/pgadmin \
  && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
