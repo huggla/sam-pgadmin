@@ -34,10 +34,10 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && apk --no-cache --quiet manifest $(diff /pre_apks.list /post_apks.list | grep "^+[^+]" | awk -F + '{print $2}' | tr '\n' ' ') | awk -F "  " '{print $2;}' > /apks_files.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
- && pip3 install --no-cache-dir -r /rootfs/pgadmin4/requirements.txt \
  && mv /rootfs/pgadmin4 / \
  && pip3 --no-cache-dir install --upgrade pip \
  && pip3 --no-cache-dir install gunicorn \
+ && pip3 install --no-cache-dir --root /pgadmin4 -r /rootfs/pgadmin4/requirements.txt \
  && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && mkdir -p /var/lib/pgadmin \
