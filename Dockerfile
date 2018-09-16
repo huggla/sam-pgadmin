@@ -5,7 +5,7 @@ FROM node:6 AS stage2
 ARG PGADMIN4_TAG="REL-3_3"
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git pip \
+ && apt-get install -y --no-install-recommends git python3 \
  && git clone --branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git \
  && yarn --cwd /pgadmin4/web install \
  && yarn --cwd /pgadmin4/web run bundle \
@@ -14,7 +14,7 @@ RUN apt-get update \
  && pip --no-cache-dir install --root /pgadmin4 --upgrade pip \
  && pip --no-cache-dir install --root /pgadmin4 gunicorn \
  && pip install --no-cache-dir --root /pgadmin4 -r requirements.txt \
- && apt-get purge -y --auto-remove git pip
+ && apt-get purge -y --auto-remove git python3
  
 FROM huggla/alpine-official:20180907-edge as stage3
 
