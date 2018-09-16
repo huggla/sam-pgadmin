@@ -38,7 +38,7 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && mkdir -p /pgadmin4/pgadmin/tillf \
  && cp -a /pgadmin4/requirements.txt ./ \
- && chroot /pgagent4 pip3 install --no-cache-dir -r requirements.txt \
+ && chroot /pgadmin4 pip3 install --no-cache-dir -r requirements.txt \
  && mkdir -p /var/lib/pgadmin \
  && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
