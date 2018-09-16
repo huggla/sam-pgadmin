@@ -12,8 +12,8 @@ RUN apt-get update \
  && yarn --cwd /pgadmin4/web run bundle \
  && yarn cache clean \
  && cd /pgadmin4 \
- && pip3 install --no-cache-dir --root /pgadmin4 gunicorn \
- && pip3 install --no-cache-dir --root /pgadmin4 -r requirements.txt \
+ && pip3 install --root /pgadmin4 gunicorn \
+ && pip3 install --root /pgadmin4 -r requirements.txt \
  && apt-get purge -y --auto-remove git python3-pip
  
 FROM huggla/alpine-official:20180907-edge as stage3
