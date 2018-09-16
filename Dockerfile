@@ -5,7 +5,7 @@ FROM node:6 AS stage2
 ARG PGADMIN4_TAG="REL-3_3"
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git python3 pip \
+ && apt-get install -y --no-install-recommends git python3 libpip3 \
  && pip3 --no-cache-dir install --root /pgadmin4 --upgrade pip \
  && git clone --branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git \
  && yarn --cwd /pgadmin4/web install \
