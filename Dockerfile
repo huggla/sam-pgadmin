@@ -10,6 +10,10 @@ RUN apt-get update \
  && yarn --cwd /pgadmin4/web install \
  && yarn --cwd /pgadmin4/web run bundle \
  && yarn cache clean \
+ && cd /pgadmin4 \
+ && pip --no-cache-dir install --root /pgadmin4 --upgrade pip \
+ && pip --no-cache-dir install --root /pgadmin4 gunicorn \
+ && pip install --no-cache-dir --root /pgadmin4 -r requirements.txt \
  && apt-get purge -y --auto-remove git
  
 FROM huggla/alpine-official:20180907-edge as stage3
@@ -35,11 +39,11 @@ RUN apk --no-cache --quiet info > /pre_apks.list \
  && tar -cvp -f /apks_files.tar -T /apks_files.list -C / \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && cp -a /rootfs/pgadmin4 / \
- && pip3 --no-cache-dir install --upgrade pip \
- && pip3 --no-cache-dir install gunicorn \
- && pip3 install --no-cache-dir --root /pgadmin4 -r requirements.txt \
- && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
- && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
+# && pip3 --no-cache-dir install --upgrade pip \
+# && pip3 --no-cache-dir install gunicorn \
+# && pip3 install --no-cache-dir --root /pgadmin4 -r requirements.txt \
+# && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
+# && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && mkdir -p /var/lib/pgadmin \
  && mv /rootfs/usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
