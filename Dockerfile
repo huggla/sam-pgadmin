@@ -6,7 +6,7 @@ ARG PGADMIN4_TAG="REL-3_3"
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git python3-pip \
- && pip3 install --no-cache-dir --upgrade pip \
+ && pip3 install --upgrade pip \
  && git clone --branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git \
  && yarn --cwd /pgadmin4/web install \
  && yarn --cwd /pgadmin4/web run bundle \
