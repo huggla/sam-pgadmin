@@ -1,4 +1,4 @@
-FROM huggla/alpine:20180907-edge as stage1
+FROM huggla/base:20180907-edge as stage1
 
 FROM node:6 AS stage2
 
