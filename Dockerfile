@@ -34,23 +34,17 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
 
 FROM node:6 AS stage2
 
-ARG PGADMIN4_TAG="REL-3_3"
-
 COPY --from=stage1 /rootfs /rootfs
-COPY --from=stage1 /rootfs/pgadmin4 /pgadmin4
+COPY ./rootfs /rootfs
 
-RUN yarn --cwd /pgadmin4 install \
- && yarn --cwd /pgadmin4 run bundle \
- && yarn cache clean \
- && mv /pgadmin4/pgadmin/static/js/generated /rootfs/pgadmin4/pgadmin/static/js/ \
- && rm -rf /pgadmin4
-
-
+RUN yarn --cwd /rootfs/pgadmin4 install \
+ && yarn --cwd /rootfs/pgadmin4 run bundle \
+ && yarn cache clean
 
 #COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
-#FROM huggla/alpine:20180907-edge
+FROM huggla/base:20180907-edge
 
-#COPY --from=stage3 /rootfs /
+COPY --from=stage2 /rootfs /
 
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
