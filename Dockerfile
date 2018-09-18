@@ -44,7 +44,7 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
 #COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 FROM huggla/base:20180907-edge
 
-COPY --from=stage2 /rootfs /
+COPY --from=stage1 /rootfs /
 
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
