@@ -28,7 +28,7 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && cp -a /usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
- && ln -s ../local/bin/python3.6 python3.6 \
+ && ln -sf ../local/bin/python3.6 python3.6 \
  && cd /rootfs/usr/local/bin \
  && ln -s python3.6 python
 
