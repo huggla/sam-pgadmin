@@ -23,7 +23,7 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
 # && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
- && rm -rf /pgadmin4 \
+ && rm -rf /pgadmin4 /rootfs/pgadmin4/babel.cfg /rootfs/pgadmin4/config_distro.py /rootfs/pgadmin4/karma.conf.js /rootfs/pgadmin4/package.json /rootfs/pgadmin4/run_pgadmin.py /rootfs/pgadmin4/webpack* /rootfs/pgadmin4/yarn.lock /rootfs/pgadmin4/regression /rootfs/pgadmin4/pgAdmin4.wsgi /rootfs/pgadmin4/.e* /rootfs/pgadmin4/.p* \
  && python3.6 -O -m compileall /rootfs/pgadmin4 \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && cp -a /usr/bin/python3.6 /rootfs/usr/local/bin/ \
