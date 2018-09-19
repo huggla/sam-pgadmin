@@ -5,6 +5,7 @@
 # VAR_*
 # All functions in /start/functions
 
+gunicornCmdArgs="--pythonpath /pgadmin4 $VAR_BINDS --threads $VAR_THREADS --access-logfile - --disable-redirect-access-to-syslog True --keyfile $VAR_SSL_KEYFILE --certfile $VAR_SSL_CERTFILE"
 if [ "$isFirstRun" == "true" ]
 then
    initPgadminConfigFile
