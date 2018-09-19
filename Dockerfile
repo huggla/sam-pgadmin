@@ -65,7 +65,7 @@ ENV VAR_LINUX_USER="postgres" \
     VAR_param_SESSION_DB_PATH="'$DATA_DIR/sessions'" \
     VAR_param_STORAGE_DIR="'$DATA_DIR/storage'" \
     VAR_param_UPGRADE_CHECK_ENABLED="False" \
-    VAR_FINAL_COMMAND="gunicorn --pythonpath /pgadmin4 $VAR_BINDS --threads $VAR_THREADS --access-logfile - --disable-redirect-access-to-syslog True --keyfile $VAR_SSL_KEYFILE --certfile $VAR_SSL_CERTFILE pgAdmin4:app"
+    VAR_FINAL_COMMAND="GUNICORN_CMD_ARGS=\"\$gunicornCmdArgs\" gunicorn pgAdmin4:app"
 
 USER starter
 
