@@ -40,6 +40,7 @@ COPY --from=stage1 /rootfs /
 RUN yarn --cwd /pgadmin4 install \
  && yarn --cwd /pgadmin4 run bundle \
  && yarn cache clean \
+ && mkdir -p /rootfs/pgadmin4/pgadmin/static/js/generated \
  && cp -a /pgadmin4/pgadmin/static/js/generated/* /rootfs/pgadmin4/pgadmin/static/js/generated/
 
 #COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
