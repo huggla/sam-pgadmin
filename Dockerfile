@@ -1,7 +1,7 @@
 FROM huggla/alpine-slim:20180907-edge as stage1
 
 #COPY --from=stage1 / /rootfs
-COPY ./rootfs /rootfs
+#COPY ./rootfs /rootfs
 #COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 
 ARG PGADMIN4_TAG="REL-3_3"
@@ -15,15 +15,15 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && tar -xvp -f /apks_files.tar -C /rootfs/ \
  && apk --no-cache add --virtual .build-dependencies build-base postgresql-dev libffi-dev git python3-dev \
  && pip3 --no-cache-dir install --upgrade pip \
-# && pip3 --no-cache-dir install gunicorn \
+ && pip3 --no-cache-dir install gunicorn \
  && git clone --branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git \
  && pip3 install --no-cache-dir -r /pgadmin4/requirements.txt \
  && apk --no-cache del .build-dependencies \
  && cp -a /pgadmin4/web /rootfs/pgadmin4 \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
-# && cp -a /usr/bin/gunicorn /rootfs/usr/bin/ \
- && rm -rf /pgadmin4 /rootfs/pgadmin4/babel.cfg /rootfs/pgadmin4/config_distro.py /rootfs/pgadmin4/karma.conf.js /rootfs/pgadmin4/package.json /rootfs/pgadmin4/run_pgadmin.py /rootfs/pgadmin4/webpack* /rootfs/pgadmin4/yarn.lock /rootfs/pgadmin4/regression /rootfs/pgadmin4/pgAdmin4.wsgi /rootfs/pgadmin4/.e* /rootfs/pgadmin4/.p* \
+ && cp -a /usr/bin/gunicorn /rootfs/usr/local/bin/ \
+# && rm -rf /pgadmin4 /rootfs/pgadmin4/babel.cfg /rootfs/pgadmin4/config_distro.py /rootfs/pgadmin4/karma.conf.js /rootfs/pgadmin4/package.json /rootfs/pgadmin4/run_pgadmin.py /rootfs/pgadmin4/webpack* /rootfs/pgadmin4/yarn.lock /rootfs/pgadmin4/regression /rootfs/pgadmin4/pgAdmin4.wsgi /rootfs/pgadmin4/.e* /rootfs/pgadmin4/.p* \
  && python3.6 -O -m compileall /rootfs/pgadmin4 \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && cp -a /usr/bin/python3.6 /rootfs/usr/local/bin/ \
@@ -32,25 +32,29 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && cd /rootfs/usr/local/bin \
  && ln -s python3.6 python
 
-#FROM node:6 AS stage2
+FROM node:6 AS stage2
 
-#COPY --from=stage1 /rootfs /rootfs
-#COPY ./rootfs /rootfs
+COPY --from=stage1 /rootfs /rootfs
+COPY ./rootfs /rootfs
 
-#RUN yarn --cwd /rootfs/pgadmin4 install \
-# && yarn --cwd /rootfs/pgadmin4 run bundle \
-# && yarn cache clean
+RUN yarn --cwd /rootfs/pgadmin4 install \
+ && yarn --cwd /rootfs/pgadmin4 run bundle \
+ && yarn cache clean
 
 #COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 FROM huggla/base:20180907-edge
 
-COPY --from=stage1 /rootfs /
+COPY --from=stage2 /rootfs /
 
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
 ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
+    VAR_BINDS="-b 0.0.0.0:5050" \
+    VAR_THREADS="1" \
+    VAR_SSL_KEYFILE="None" \
+    VAR_SSL_CERTFILE="None" \
     VAR_param_DEFAULT_SERVER="'0.0.0.0'" \
     VAR_param_SERVER_MODE="False" \
     VAR_param_ALLOW_SAVE_PASSWORD="False" \
@@ -61,7 +65,7 @@ ENV VAR_LINUX_USER="postgres" \
     VAR_param_SESSION_DB_PATH="'$DATA_DIR/sessions'" \
     VAR_param_STORAGE_DIR="'$DATA_DIR/storage'" \
     VAR_param_UPGRADE_CHECK_ENABLED="False" \
-    VAR_FINAL_COMMAND="python3.6 /pgadmin4/pgAdmin4.py"
+    VAR_FINAL_COMMAND="gunicorn --pythonpath /pgadmin4 $VAR_BINDS --threads $VAR_THREADS --access-logfile - --disable-redirect-access-to-syslog True --keyfile $VAR_SSL_KEYFILE --certfile $VAR_SSL_CERTFILE pgAdmin4:app"
 
 USER starter
 
