@@ -1,11 +1,10 @@
 FROM huggla/alpine-slim:20180907-edge as stage1
 
-#COPY --from=stage1 / /rootfs
 COPY ./rootfs /rootfs
-#COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 
 ARG PGADMIN4_TAG="REL-3_3"
-ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl"
+#ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl"
+ARG APKS="python3 postgresql-libs libressl2.7-libssl"
 
 RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && apk --no-cache add $APKS \
