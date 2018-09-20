@@ -7,22 +7,27 @@ Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by
 ### pre-set runtime variables
 * VAR_LINUX_USER (postgres)
 * VAR_CONFIG_FILE (/etc/pgadmin/config_local.py)
-* VAR_FINAL_COMMAND ('/usr/local/bin/python /usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py')
+* VAR_BINDS (-b 0.0.0.0:5050): Addresses bound (by Gunicorn).
+* VAR_THREADS (1): Number of threads used (by Gunicorn).
+* VAR_FINAL_COMMAND (\$gunicornCmdArgs gunicorn pgAdmin4:app)
 * VAR_param_DEFAULT_SERVER ('0.0.0.0')
 * VAR_param_SERVER_MODE (False)
 * VAR_param_ALLOW_SAVE_PASSWORD (False)
 * VAR_param_CONSOLE_LOG_LEVEL (30)
-* VAR_param_LOG_FILE ('/var/log/pgadmin4.log')
+* VAR_param_LOG_FILE ('/var/log/pgadmin')
 * VAR_param_FILE_LOG_LEVEL (0)
 * VAR_param_SQLITE_PATH ('/pgdata/sqlite/pgadmin4.db')
 * VAR_param_SESSION_DB_PATH ('/pgdata/sessions')
 * VAR_param_STORAGE_DIR ('/pgdata/storage')
 * VAR_param_UPGRADE_CHECK_ENABLED (False)
-* VAR_ARGON2_PARAMS (-r): Custom encryption parameters, if VAR_ENCRYPT_PW="yes".
-* VAR_SALT_FILE (/proc/sys/kernel/hostname): Encryption salt, if VAR_ENCRYPT_PW="yes".
+* VAR_ARGON2_PARAMS (-r): Custom password encryption parameters, if VAR_ENCRYPT_PW="yes".
+* VAR_SALT_FILE (/proc/sys/kernel/hostname): Password encryption salt, if VAR_ENCRYPT_PW="yes".
 
 ### Optional runtime variables
-* VAR_param_&lt;parameter name&gt;
+* VAR_param_&lt;parameter name&gt;: For Pgadmin4 parameters.
+* VAR_ENABLE_TLS: Set to "True" to use ssl.
+* VAR_SSL_KEYFILE: Path to key file. Needed if VAR_ENABLE_TLS is set to True.
+* VAR_SSL_CERTFILE: Path to cert file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_email_server: Set initial login email during server mode initialization.
 * VAR_password_server: Set initial login password during server mode initialization (only if started non-interactive). 
 * VAR_password_file_server
