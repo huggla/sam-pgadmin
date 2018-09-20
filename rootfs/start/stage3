@@ -13,6 +13,7 @@ then
    if [ "$VAR_ENABLE_TLS" == True ]
    then
       gunicornCmdArgs="$gunicornCmdArgs --keyfile $VAR_SSL_KEYFILE --certfile $VAR_SSL_CERTFILE\""
+      iptables -t nat -I PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 5050
    else
       gunicornCmdArgs="$gunicornCmdArgs\""
    fi
