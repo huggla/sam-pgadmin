@@ -29,7 +29,8 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && cd /rootfs/usr/bin \
  && ln -sf ../local/bin/python3.6 python3.6 \
  && cd /rootfs/usr/local/bin \
- && ln -s python3.6 python
+ && ln -s python3.6 python \
+ && apk --no-cache del .build-dependencies
 
 FROM node:6 AS stage2
 
