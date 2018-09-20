@@ -4,7 +4,7 @@ COPY ./rootfs /rootfs
 
 ARG PGADMIN4_TAG="REL-3_3"
 #ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl"
-ARG APKS="python3 postgresql-libs libressl2.7-libssl"
+ARG APKS="python3 postgresql-libs libressl2.7-libssl iptables"
 
 RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && apk --no-cache add $APKS \
