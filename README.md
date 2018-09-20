@@ -25,7 +25,7 @@ Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by
 
 ### Optional runtime variables
 * VAR_param_&lt;parameter name&gt;: For Pgadmin4 parameters.
-* VAR_ENABLE_TLS: Set to "True" to use ssl.
+* VAR_ENABLE_TLS: Set to "True" to use ssl. Remember to bind port 443!
 * VAR_SSL_KEYFILE: Path to key file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_SSL_CERTFILE: Path to cert file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_email_server: Set initial login email during server mode initialization.
