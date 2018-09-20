@@ -12,8 +12,9 @@ then
    gunicornCmdArgs="GUNICORN_CMD_ARGS=\"--pythonpath /pgadmin4 $VAR_BINDS --threads $VAR_THREADS --access-logfile - --disable-redirect-access-to-syslog True"
    if [ "$VAR_ENABLE_TLS" == True ]
    then
-      gunicornCmdArgs="$gunicornCmdArgs --keyfile $VAR_SSL_KEYFILE --certfile $VAR_SSL_CERTFILE\""
-      iptables -t nat -I PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 5050
+      iptables -t nat -I PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 10443
+      gunicornCmdArgs="$gunicornCmdArgs --keyfile $VAR_SSL_KEYFILE --certfile $VAR_SSL_CERTFILE --bind 0.0.0.0:10443\""
+      
    else
       gunicornCmdArgs="$gunicornCmdArgs\""
    fi
