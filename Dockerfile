@@ -23,8 +23,11 @@ RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && cp -a /pgadmin4/pkg/docker/run_pgadmin.py /rootfs/pgadmin4/ \
  && cp -a /pgadmin4/pkg/docker/config_distro.py /rootfs/pgadmin4/ \
  && cp -a /usr/bin/gunicorn /rootfs/usr/local/bin/ \
- && rm -rf /pgadmin4 /rootfs/pgadmin4/babel.cfg /rootfs/pgadmin4/config_distro.py /rootfs/pgadmin4/karma.conf.js /rootfs/pgadmin4/package.json /rootfs/pgadmin4/run_pgadmin.py /rootfs/pgadmin4/webpack* /rootfs/pgadmin4/yarn.lock /rootfs/pgadmin4/regression /rootfs/pgadmin4/.e* /rootfs/pgadmin4/.p* \
- && python3.6 -O -m compileall /rootfs/pgadmin4 \
+ && rm -rf /pgadmin4 /rootfs/pgadmin4/config_distro.py /rootfs/pgadmin4/run_pgadmin.py /rootfs/pgadmin4/regression \
+ && find /rootfs/pgadmin4 -name tests -type d | xargs rm -rf \
+ && mv /rootfs/pgadmin4 / \
+ && python3.6 -O -m compileall /pgadmin4 \
+ && mv /pgadmin4 /rootfs/ \
  && cp -a /usr/lib/python3.6/site-packages /rootfs/usr/lib/python3.6/ \
  && cp -a /usr/bin/python3.6 /rootfs/usr/local/bin/ \
  && cd /rootfs/usr/bin \
@@ -41,7 +44,8 @@ RUN yarn --cwd /pgadmin4 install \
  && yarn --cwd /pgadmin4 run bundle \
  && yarn cache clean \
  && mkdir -p /rootfs/pgadmin4/pgadmin/static/js/generated \
- && cp -a /pgadmin4/pgadmin/static/js/generated/* /rootfs/pgadmin4/pgadmin/static/js/generated/
+ && cp -a /pgadmin4/pgadmin/static/js/generated/* /rootfs/pgadmin4/pgadmin/static/js/generated/ \
+ && rm -rf /pgadmin4 /rootfs/pgadmin4/babel.cfg /rootfs/pgadmin4/karma.conf.js /rootfs/pgadmin4/package.json /rootfs/pgadmin4/webpack* /rootfs/pgadmin4/yarn.lock /rootfs/pgadmin4/.e* /rootfs/pgadmin4/.p*
 
 #COPY --from=stage2 /generated/ /rootfs/pgadmin4/pgadmin/static/js/generated/
 FROM huggla/base:20180907-edge
