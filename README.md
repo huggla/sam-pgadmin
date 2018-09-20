@@ -1,13 +1,12 @@
 **Note! I use Docker latest tag for development, which means that it isn't allways working. Date tags are stable.**
 
 # pgadmin-alpine
-Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by default run in desktop mode (no multi-user or authentication). Set VAR_param_SERVER_MODE="True" to run in server mode. I recommend putting VAR_param_SQLITE_PATH on persistent storage. Default port is 5050.
+Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by default run in desktop mode (no multi-user or authentication). Set VAR_param_SERVER_MODE="True" to run in server mode. I recommend putting VAR_param_SQLITE_PATH on persistent storage. Listens on port 5050 internally.
 
 ## Environment variables
 ### pre-set runtime variables
 * VAR_LINUX_USER (postgres)
 * VAR_CONFIG_FILE (/etc/pgadmin/config_local.py)
-* VAR_BINDS (-b 0.0.0.0:5050): Addresses bound (by Gunicorn).
 * VAR_THREADS (1): Number of threads used (by Gunicorn).
 * VAR_FINAL_COMMAND (\$gunicornCmdArgs gunicorn pgAdmin4:app)
 * VAR_param_DEFAULT_SERVER ('0.0.0.0')
@@ -25,7 +24,7 @@ Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by
 
 ### Optional runtime variables
 * VAR_param_&lt;parameter name&gt;: For Pgadmin4 parameters.
-* VAR_ENABLE_TLS: Set to "True" to use ssl. Remember to bind port 443!
+* VAR_ENABLE_TLS: Set to "True" to use ssl.
 * VAR_SSL_KEYFILE: Path to key file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_SSL_CERTFILE: Path to cert file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_email_server: Set initial login email during server mode initialization.
