@@ -3,8 +3,7 @@ FROM huggla/alpine-slim:20180907-edge as stage1
 COPY ./rootfs /rootfs
 
 ARG PGADMIN4_TAG="REL-3_3"
-#ARG APKS="python3 postgresql-libs libressl2.7-libssl libressl2.7-libcrypto libffi ca-certificates libintl krb5-conf libcom_err keyutils-libs libverto krb5-libs libtirpc libnsl"
-ARG APKS="python3 postgresql-libs libressl2.7-libssl iptables"
+ARG APKS="python3 postgresql-libs libressl2.7-libssl"
 
 RUN mkdir -p /rootfs/usr/bin /rootfs/usr/local/bin /rootfs/usr/lib/python3.6 \
  && apk --no-cache add $APKS \
@@ -53,7 +52,6 @@ ARG DATA_DIR="/pgdata"
 
 ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
-    VAR_BINDS="-b 0.0.0.0:5050" \
     VAR_THREADS="1" \
     VAR_param_DEFAULT_SERVER="'0.0.0.0'" \
     VAR_param_SERVER_MODE="False" \
