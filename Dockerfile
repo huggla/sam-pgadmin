@@ -1,4 +1,4 @@
-FROM huggla/alpine-slim as stage1
+FROM huggla/alpine-slim:20180921-edge as stage1
 
 COPY ./rootfs /rootfs
 
@@ -43,7 +43,7 @@ RUN yarn --cwd /pgadmin4 install \
  && cp -a /pgadmin4/pgadmin/static/js/generated/* /rootfs/pgadmin4/pgadmin/static/js/generated/ \
  && rm -rf /pgadmin4 /rootfs/pgadmin4/babel.cfg /rootfs/pgadmin4/karma.conf.js /rootfs/pgadmin4/package.json /rootfs/pgadmin4/webpack* /rootfs/pgadmin4/yarn.lock /rootfs/pgadmin4/.e* /rootfs/pgadmin4/.p*
 
-FROM huggla/base
+FROM huggla/base:20180921-edge
 
 COPY --from=stage2 /rootfs /
 
