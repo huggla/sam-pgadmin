@@ -28,7 +28,7 @@ Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by
 * VAR_SSL_KEYFILE: Path to key file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_SSL_CERTFILE: Path to cert file. Needed if VAR_ENABLE_TLS is set to True.
 * VAR_email_server: Set initial login email during server mode initialization.
-* VAR_password_server: Set initial login password during server mode initialization (only if started non-interactive). 
+* VAR_password_server: Set initial login password during server mode initialization. 
 * VAR_password_file_server
 * VAR_ENCRYPT_PW: Set to "yes" to create a hashed password with Argon2.
 * VAR_SALT
