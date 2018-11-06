@@ -3,6 +3,7 @@ ARG CONTENTIMAGE1="huggla/pgadmin4:$TAG"
 ARG CONTENTSOURCE1="/apps"
 ARG CONTENTDESTINATION1="/"
 ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
+ARG EXECUTABLES="/usr/bin/gunicorn"
 
 #---------------Don't edit----------------
 FROM ${CONTENTIMAGE1:-scratch} as content1
