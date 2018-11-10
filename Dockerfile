@@ -3,7 +3,7 @@ ARG CONTENTIMAGE1="huggla/pgadmin4:$TAG"
 ARG CONTENTSOURCE1="/apps"
 ARG CONTENTDESTINATION1="/"
 ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
-ARG BUILDCMDS="\
+ARG BUILDCMDS=\
 "   cd /imagefs/usr/bin "\
 "&& ln -s python3.6 python "\
 "&& mv python /imagefs/usr/local/bin/"
