@@ -34,4 +34,4 @@ Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by
 * VAR_SALT
 
 ## Capabilities
-Can drop all but CHOWN, DAC_OVERRIDE, FOWNER, SETGID and SETUID.
+Can drop all but SETPCAP, SETGID and SETUID.
