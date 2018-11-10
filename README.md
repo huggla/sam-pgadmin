@@ -1,7 +1,7 @@
 **Note! I use Docker latest tag for development, which means that it isn't allways working. Date tags are stable.**
 
 # pgadmin-alpine
-Pgadmin 4 on Alpine (currently v3.3) without postgresql-client and docs. Will by default run in desktop mode (no multi-user or authentication). Set VAR_param_SERVER_MODE="True" to run in server mode. I recommend putting VAR_param_SQLITE_PATH on persistent storage. Listens on port 5050 internally.
+Pgadmin 4 on Alpine (currently v3.5) without postgresql-client and docs. Will by default run in desktop mode (no multi-user or authentication). Set VAR_param_SERVER_MODE="True" to run in server mode. I recommend putting VAR_param_SQLITE_PATH on persistent storage. Listens on port 5050 internally.
 
 ## Environment variables
 ### pre-set runtime variables
