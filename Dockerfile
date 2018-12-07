@@ -1,7 +1,6 @@
 ARG TAG="20181204"
 ARG CONTENTIMAGE1="huggla/pgadmin4:$TAG"
 ARG CONTENTSOURCE1="/apps"
-ARG CONTENTDESTINATION1="/"
 ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
 ARG BUILDCMDS=\
 "   sed -i 's|#!/usr/bin/python3.6|#!/usr/local/bin/python3.6|' /imagefs/usr/bin/gunicorn"
@@ -10,8 +9,8 @@ ARG EXECUTABLES="/usr/bin/python3.6 /usr/bin/gunicorn"
 #---------------Don't edit----------------
 FROM ${CONTENTIMAGE1:-scratch} as content1
 FROM ${CONTENTIMAGE2:-scratch} as content2
-FROM ${BASEIMAGE:-huggla/base:$TAG} as base
-FROM huggla/build:$TAG as build
+FROM ${INITIMAGE:-${BASEIMAGE:-huggla/base:$TAG}} as init
+FROM ${BUILDIMAGE:-huggla/build:$TAG} as build
 FROM ${BASEIMAGE:-huggla/base:$TAG} as image
 COPY --from=build /imagefs /
 #-----------------------------------------
