@@ -3,8 +3,8 @@ ARG CONTENTIMAGE1="huggla/pgadmin4:py2-$TAG"
 ARG CONTENTSOURCE1="/apps"
 ARG RUNDEPS="python2 postgresql-libs libressl2.7-libssl"
 ARG BUILDCMDS=\
-"   sed -i 's|#!/usr/local/bin/python|#!/usr/local/bin/python2|' /imagefs/usr/bin/gunicorn"
-ARG STARTUPEXECUTABLES="/usr/bin/python2 /usr/bin/gunicorn"
+"   sed -i 's|#!/usr/local/bin/python|#!/usr/local/bin/python2.7|' /imagefs/usr/bin/gunicorn"
+ARG STARTUPEXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
 
 #--------Generic template (don't edit)--------
 FROM ${CONTENTIMAGE1:-scratch} as content1
