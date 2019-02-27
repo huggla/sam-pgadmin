@@ -4,7 +4,7 @@ ARG CONTENTSOURCE1="/apps"
 ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
 ARG INITCMDS=\
 "   ls -laR /buildfs "\
-"&& /buildfs/usr/bin/pip3 --no-cache-dir uninstall --root /buildfs --yes pip"
+"&& chroot /buildfs /usr/bin/pip3 --no-cache-dir uninstall --yes pip"
 ARG BUILDCMDS=\
 "   sed -i 's|#!/usr/bin/python3.6|#!/usr/local/bin/python3.6|' /imagefs/usr/bin/gunicorn"
 ARG STARTUPEXECUTABLES="/usr/bin/python3.6 /usr/bin/gunicorn"
