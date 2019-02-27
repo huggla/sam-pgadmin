@@ -2,6 +2,7 @@ ARG TAG="20190220"
 ARG CONTENTIMAGE1="huggla/pgadmin4:py3-$TAG"
 ARG CONTENTSOURCE1="/apps"
 ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
+ARG INITCMDS="/buildfs/usr/bin/pip3 --no-cache-dir uninstall --root /buildfs --yes pip"
 ARG BUILDCMDS=\
 "   sed -i 's|#!/usr/bin/python3.6|#!/usr/local/bin/python3.6|' /imagefs/usr/bin/gunicorn"
 ARG STARTUPEXECUTABLES="/usr/bin/python3.6 /usr/bin/gunicorn"
