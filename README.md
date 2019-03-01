@@ -1,11 +1,11 @@
-# pgadmin-alpine
-Pgadmin 4 on Alpine without postgresql-client and docs. Will by default run in desktop mode (no multi-user or authentication). Set VAR_param_SERVER_MODE="True" to run in server mode. I recommend putting VAR_param_SQLITE_PATH on persistent storage. Listens on port 5050 internally.
+# huggla/pgadmin-alpine:*
+Pgadmin4 on Alpine without postgresql-client and docs. Will by default run in desktop mode (no multi-user or authentication). Set VAR_param_SERVER_MODE="True" to run in server mode. I recommend putting VAR_param_SQLITE_PATH on persistent storage. Listens on port 5050 internally (expose externally as you wish at runtime, f ex. -p 80:5050 ).
 
-20181204: Pgadmin4 3.6, Python 3.6, Alpine edge.
+\* 20181204: Pgadmin4 3.6, Python 3.6, Alpine edge.
 
-py3-20190220: Pgadmin4 4.2, Python 3.6, Alpine edge.
+\* py3-20190220: Pgadmin4 4.2, Python 3.6, Alpine edge.
 
-py2-20190220: Pgadmin4 4.2, Python 2.7, Alpine edge.
+\* py2-20190220: Pgadmin4 4.2, Python 2.7, Alpine edge.
 
 ## Environment variables
 ### pre-set runtime variables
