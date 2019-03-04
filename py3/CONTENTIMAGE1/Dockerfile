@@ -1,6 +1,6 @@
 ARG TAG="20190220"
 
-FROM huggla/alpine-official as alpine
+FROM huggla/alpine as alpine
 
 ARG BUILDDEPS="build-base postgresql-dev libffi-dev git python3-dev libsodium-dev linux-headers"
 ARG PGADMIN4_TAG="REL-4_2"
