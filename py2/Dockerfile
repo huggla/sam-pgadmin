@@ -1,3 +1,13 @@
+# Secure and Minimal image of Pgadmin
+# https://hub.docker.com/repository/docker/huggla/sam-pgadmin
+
+# =========================================================================
+# Init
+# =========================================================================
+# ARGs (can be passed to Build/Final) <BEGIN>
+ARG SaM_VERSION="2.0.1"
+ARG IMAGETYPE="application,base"
+
 ARG TAG="20190220"
 ARG CONTENTIMAGE1="huggla/pgadmin4:py2-$TAG"
 ARG CONTENTSOURCE1="/apps"
