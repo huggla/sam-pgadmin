@@ -7,11 +7,9 @@
 # ARGs (can be passed to Build/Final) <BEGIN>
 ARG SaM_VERSION="2.0.2"
 ARG IMAGETYPE="application,base"
-
-ARG TAG="20190220"
-ARG CONTENTIMAGE1="huggla/pgadmin4:py2-$TAG"
-ARG CONTENTSOURCE1="/apps"
-ARG RUNDEPS="python2 postgresql-libs libressl2.7-libssl"
+ARG PYTHON_VERSION="2.7.17"
+ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
+ARG RUNDEPS="postgresql-libs"
 ARG BUILDCMDS=\
 "   sed -i 's|#!/usr/local/bin/python|#!/usr/local/bin/python2.7|' /imagefs/usr/bin/gunicorn"
 ARG STARTUPEXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
