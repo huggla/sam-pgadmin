@@ -21,7 +21,7 @@ ARG BUILDCMDS=\
 '   pip --no-cache-dir install gunicorn '\
 '&& pip install --no-cache-dir -r pgadmin4/requirements.txt '\
 '&& cp -a pgadmin4/web /tmp/pgadmin4 '\
-'&& cp -a pgadmin4/usr/local/bin/gunicorn /finalfs/usr/bin/ '\
+'&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
 '&& rm -rf pgadmin4 /tmp/pgadmin4/regression /tmp/pgadmin4/pgadmin/feature_tests '\
 '&& find /tmp/pgadmin4 -name tests -type d | xargs rm -rf '\
 '&& mv /tmp/pgadmin4 ./ '\
