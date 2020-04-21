@@ -16,7 +16,7 @@ ARG RUNDEPS="postgresql-libs"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev"
 ARG BUILDCMDS=\
 '   pip --no-cache-dir install gunicorn '\
-'&& pip install --no-cache-dir -r requirements.txt '\
+'&& pip install --no-cache-dir -r pgadmin4/requirements.txt '\
 '&& cp -a pgadmin4/web /tmp/pgadmin4 '\
 '&& cp -a pgadmin4/usr/local/bin/gunicorn /finalfs/usr/bin/ '\
 '&& rm -rf pgadmin4 /tmp/pgadmin4/regression /tmp/pgadmin4/pgadmin/feature_tests '\
