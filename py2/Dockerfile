@@ -14,12 +14,14 @@ ARG CONTENTSOURCE1="/content-dev"
 ARG CONTENTDESTINATION1="/"
 ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
 ARG CLONEGITS="'--branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git'"
-ARG MAKEDIRS="/usr/lib/python2.7"
-ARG RUNDEPS="python2 postgresql-libs libressl3.0-libssl"
+ARG MAKEDIRS="/usr/lib/python2.7 /var/lib"
+ARG RUNDEPS="sqlite-libs postgresql-libs libressl3.0-libssl"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev"
 ARG BUILDCMDS=\
 '   pip --no-cache-dir install gunicorn '\
 '&& pip install --no-cache-dir -r pgadmin4/requirements.txt '\
+'&& pip uninstall werkzeug '\
+'&& pip install --no-cache-dir werkzeug=0.16.1 '\
 '&& cp -a pgadmin4/web /tmp/pgadmin4 '\
 '&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
 '&& rm -rf pgadmin4 /tmp/pgadmin4/regression /tmp/pgadmin4/pgadmin/feature_tests '\
