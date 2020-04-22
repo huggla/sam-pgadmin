@@ -27,7 +27,6 @@ ARG BUILDCMDS=\
 '&& mv /tmp/pgadmin4 ./ '\
 '&& python2.7 -OO -m compileall pgadmin4 '\
 '&& mv pgadmin4 /finalfs/pgadmin4 '\
-'&& pip uninstall --yes pip '\
 '&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
 "&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
 ARG STARTUPEXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
