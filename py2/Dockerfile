@@ -18,10 +18,9 @@ ARG MAKEDIRS="/usr/lib/python2.7 /var/lib"
 ARG RUNDEPS="sqlite-libs postgresql-libs libressl3.0-libssl"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev"
 ARG BUILDCMDS=\
-'   pip --no-cache-dir install gunicorn '\
-'&& pip install --no-cache-dir -r pgadmin4/requirements.txt '\
-'&& pip uninstall werkzeug '\
-'&& pip install --no-cache-dir werkzeug=0.16.1 '\
+'   pip install --no-cache-dir --disable-pip-version-check gunicorn '\
+'&& echo "werkzeug==0.16.1" > pgadmin4/constraints.txt '\
+'&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4/requirements.txt --constraint pgadmin4/constraints.txt '\
 '&& cp -a pgadmin4/web /tmp/pgadmin4 '\
 '&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
 '&& rm -rf pgadmin4 /tmp/pgadmin4/regression /tmp/pgadmin4/pgadmin/feature_tests '\
