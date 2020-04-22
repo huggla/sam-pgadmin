@@ -30,7 +30,7 @@ ARG BUILDCMDS=\
 '&& mv pgadmin4 /finalfs/pgadmin4 '\
 '&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
 "&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
-ARG STARTUPEXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
+ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
