@@ -15,7 +15,7 @@ ARG CONTENTDESTINATION1="/"
 ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
 ARG CLONEGITS="'--branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git'"
 ARG MAKEDIRS="/usr/lib/python2.7"
-ARG RUNDEPS="postgresql-libs libressl libressl-dev"
+ARG RUNDEPS="python2 postgresql-libs libressl3.0-libssl"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev"
 ARG BUILDCMDS=\
 '   pip --no-cache-dir install gunicorn '\
