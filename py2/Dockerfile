@@ -15,7 +15,7 @@ ARG CONTENTDESTINATION1="/"
 ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
 ARG CLONEGITS="'--branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git'"
 ARG MAKEDIRS="/usr/lib/python2.7 /var/lib"
-ARG RUNDEPS="sqlite-libs postgresql-libs libressl3.0-libssl"
+ARG RUNDEPS="sqlite-libs postgresql-libs"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev"
 ARG BUILDCMDS=\
 '   pip install --no-cache-dir --disable-pip-version-check gunicorn '\
