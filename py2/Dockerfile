@@ -26,6 +26,7 @@ ARG BUILDCMDS=\
 '&& rm -rf pgadmin4 /tmp/pgadmin4/regression /tmp/pgadmin4/pgadmin/feature_tests '\
 '&& find /tmp/pgadmin4 -name tests -type d | xargs rm -rf '\
 '&& mv /tmp/pgadmin4 ./ '\
+'&& pip uninstall --no-cache-dir --disable-pip-version-check --yes pip '\
 '&& python2.7 -OO -m compileall pgadmin4 '\
 '&& mv pgadmin4 /finalfs/pgadmin4 '\
 '&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
