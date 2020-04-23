@@ -7,30 +7,22 @@
 # ARGs (can be passed to Build/Final) <BEGIN>
 ARG SaM_VERSION="2.0.2"
 ARG IMAGETYPE="application,base"
-ARG PGADMIN4_TAG="REL-4_2"
+ARG PGADMIN_VERSION="4.2"
 ARG PYTHON_VERSION="2.7.17"
-ARG CONTENTIMAGE1="huggla/sam-content:python-$PYTHON_VERSION"
-ARG CONTENTSOURCE1="/content-dev"
-ARG CONTENTDESTINATION1="/"
-ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
-ARG CLONEGITS="'--branch $PGADMIN4_TAG --depth 1 https://git.postgresql.org/git/pgadmin4.git'"
-ARG MAKEDIRS="/usr/lib/python2.7 /var/lib"
+ARG CONTENTIMAGE1="huggla/sam-content:pgadmin-$PGADMIN_VERSION"
+ARG CONTENTSOURCE1="/content-app"
+ARG CONTENTDESTINATION1="/finalfs"
+ARG INITIMAGE="node"
+ARG MAKEDIRS="/pgadmin4/pgadmin/static/js/generated"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
-'   pip install --no-cache-dir --disable-pip-version-check gunicorn '\
-'&& echo "werkzeug==0.16.1" > pgadmin4/constraints.txt '\
-'&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4/requirements.txt --constraint pgadmin4/constraints.txt '\
-'&& cp -a pgadmin4/web /tmp/pgadmin4 '\
-'&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
-'&& rm -rf pgadmin4 /tmp/pgadmin4/regression /tmp/pgadmin4/pgadmin/feature_tests '\
-'&& find /tmp/pgadmin4 -name tests -type d | xargs rm -rf '\
-'&& mv /tmp/pgadmin4 ./ '\
-'&& pip uninstall --no-cache-dir --disable-pip-version-check --yes pip '\
-'&& python2.7 -OO -m compileall pgadmin4 '\
-'&& mv pgadmin4 /finalfs/pgadmin4 '\
-'&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
-"&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
+'   cp -a /finalfs/* / '\
+'&& yarn --cwd /pgadmin4 install '\
+'&& yarn --cwd /pgadmin4 run bundle '\
+'&& yarn cache clean '\
+'&& cp -a /pgadmin4/pgadmin/static/js/generated/* /finalfs/pgadmin4/pgadmin/static/js/generated/'
+ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.json /pgadmin4/webpack* /pgadmin4/yarn.lock /pgadmin4/.e* /pgadmin4/.p*"
 ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
 # ARGs (can be passed to Build/Final) </END>
 
