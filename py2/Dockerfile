@@ -21,6 +21,7 @@ ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   cp -a /tmp/content/* / '\
 '&& cp -a /tmp/content/* /finalfs/ '\
+'&& pip install --no-cache-dir --disable-pip-version-check pngquant-bin '\
 '&& yarn --cwd /pgadmin4 install '\
 '&& yarn --cwd /pgadmin4 run bundle '\
 '&& yarn cache clean '\
