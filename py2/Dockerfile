@@ -12,13 +12,14 @@ ARG PYTHON_VERSION="2.7.17"
 ARG CONTENTIMAGE1="huggla/sam-content:pgadmin-$PGADMIN_VERSION"
 ARG CONTENTSOURCE1="/content-app"
 ARG CONTENTDESTINATION1="/tmp/content-app"
-ARG INITIMAGE="node"
+ARG INITIMAGE="node:alpine"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
-ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
+ARG BUILDDEPS="python2 g++ zlib-dev libpng-dev postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   rm -rf /finalfs/* '\
-'&& cp -a /tmp/content-app/* / '\
+'&& cp -a /tmp/content-app/pgadmin4 / '\
 '&& cp -a /tmp/content-app/* /finalfs/ '\
+'&& yarn config set cache ~/.yarn-cache '\
 '&& yarn --cwd /pgadmin4 install '\
 '&& yarn --cwd /pgadmin4 run bundle '\
 '&& yarn cache clean '\
