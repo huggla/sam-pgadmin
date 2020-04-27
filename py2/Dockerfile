@@ -7,7 +7,7 @@
 # ARGs (can be passed to Build/Final) <BEGIN>
 ARG SaM_VERSION="dev"
 ARG IMAGETYPE="application,base"
-ARG PGADMIN_VERSION="4.2"
+ARG PGADMIN_VERSION="4.20"
 ARG PYTHON_VERSION="2.7.17"
 ARG CONTENTIMAGE1="huggla/sam-content:pgadmin-$PGADMIN_VERSION"
 ARG CONTENTSOURCE1="/content-app"
