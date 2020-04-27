@@ -5,22 +5,19 @@
 # Init
 # =========================================================================
 # ARGs (can be passed to Build/Final) <BEGIN>
-ARG SaM_VERSION="2.0.2"
+ARG SaM_VERSION="dev"
 ARG IMAGETYPE="application,base"
 ARG PGADMIN_VERSION="4.2"
 ARG PYTHON_VERSION="2.7.17"
 ARG CONTENTIMAGE1="huggla/sam-content:pgadmin-$PGADMIN_VERSION"
 ARG CONTENTSOURCE1="/content-app"
-ARG CONTENTDESTINATION1="/tmp/content"
-ARG CONTENTIMAGE2="node:alpine"
-ARG CONTENTSOURCE2="/"
-ARG CONTENTDESTINATION2="/"
+ARG CONTENTDESTINATION1="/finalfs"
+ARG INITIMAGE="node"
 ARG MAKEDIRS="/pgadmin4/pgadmin/static/js/generated"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
-ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev pngquant"
+ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
-'   cp -a /tmp/content/* / '\
-'&& cp -a /tmp/content/* /finalfs/ '\
+'   cp -a /finalfs/* / '\
 '&& yarn --cwd /pgadmin4 install '\
 '&& yarn --cwd /pgadmin4 run bundle '\
 '&& yarn cache clean '\
@@ -37,6 +34,8 @@ FROM ${CONTENTIMAGE4:-scratch} as content4
 FROM ${CONTENTIMAGE5:-scratch} as content5
 FROM ${INITIMAGE:-${BASEIMAGE:-huggla/secure_and_minimal:$SaM_VERSION-base}} as init
 # Generic template (don't edit) </END>
+
+RUN mkdir /environment
 
 # =========================================================================
 # Build
