@@ -11,16 +11,18 @@ ARG PGADMIN_VERSION="4.2"
 ARG PYTHON_VERSION="2.7.17"
 ARG CONTENTIMAGE1="huggla/sam-content:pgadmin-$PGADMIN_VERSION"
 ARG CONTENTSOURCE1="/content-app"
-ARG CONTENTDESTINATION1="/finalfs"
+ARG CONTENTDESTINATION1="/tmp/content-app"
 ARG INITIMAGE="node"
-ARG MAKEDIRS="/pgadmin4/pgadmin/static/js/generated"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
-'   cp -a /finalfs/* / '\
+'   rm -rf /finalfs/* '\
+'&& cp -a /tmp/content-app/* / '\
+'&& cp -a /tmp/content-app/* /finalfs/ '\
 '&& yarn --cwd /pgadmin4 install '\
 '&& yarn --cwd /pgadmin4 run bundle '\
 '&& yarn cache clean '\
+'&& mkdir -p /finalfs/pgadmin4/pgadmin/static/js/generated '\
 '&& cp -a /pgadmin4/pgadmin/static/js/generated/* /finalfs/pgadmin4/pgadmin/static/js/generated/'
 ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.json /pgadmin4/webpack* /pgadmin4/yarn.lock /pgadmin4/.e* /pgadmin4/.p*"
 ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
