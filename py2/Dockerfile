@@ -6,15 +6,17 @@
 # =========================================================================
 # ARGs (can be passed to Build/Final) <BEGIN>
 ARG SaM_VERSION="dev"
-ARG IMAGETYPE="application,base"
+ARG IMAGETYPE="application"
 ARG PGADMIN_VERSION="4.20"
 ARG PYTHON_VERSION="2.7.17"
-ARG CONTENTIMAGE1="huggla/sam-content:pgadmin-$PGADMIN_VERSION"
-ARG CONTENTSOURCE1="/content-app"
-ARG CONTENTDESTINATION1="/tmp/content-app"
-ARG INITIMAGE="node:alpine"
+ARG CONTENTIMAGE1="huggla/pgadmin4-node_build:$PGADMIN_VERSION"
+ARG CONTENTSOURCE1="/pgadmin4"
+ARG CONTENTDESTINATION1="/pgadmin4"
+ARG CONTENTIMAGE2="huggla/sam-content:python-$PYTHON_VERSION"
+ARG CONTENTSOURCE2="/"
+ARG CONTENTDESTINATION2="/"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
-ARG BUILDDEPS="python2 g++ zlib-dev libpng-dev postgresql-dev libffi-dev libsodium-dev sqlite-dev"
+ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   rm -rf /finalfs/* '\
 '&& cp -a /tmp/content-app/pgadmin4 / '\
