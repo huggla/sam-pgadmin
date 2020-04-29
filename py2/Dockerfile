@@ -17,9 +17,13 @@ ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   cp -a /pgadmin4 /finalfs/ '\
-
-'&& mkdir -p /finalfs/pgadmin4/pgadmin/static/js/generated '\
-'&& cp -a /pgadmin4/pgadmin/static/js/generated/* /finalfs/pgadmin4/pgadmin/static/js/generated/'
+'   pip install --no-cache-dir --disable-pip-version-check --requirement requirements.txt '\
+'&& pip install --no-cache-dir --disable-pip-version-check gunicorn==19.9.0 '\
+'&& python2.7 -OO -m compileall -x node_modules /pgadmin4 '\
+'&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
+'&& pip uninstall --no-cache-dir --disable-pip-version-check --yes pip '\
+'&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
+"&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
 ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.json /pgadmin4/webpack* /pgadmin4/yarn.lock /pgadmin4/.e* /pgadmin4/.p*"
 ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
 # ARGs (can be passed to Build/Final) </END>
