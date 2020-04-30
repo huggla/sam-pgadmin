@@ -18,7 +18,7 @@ ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   cp -a /pgadmin4 /finalfs/ '\
-'&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt '\
+"&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt "\
 '&& pip install --no-cache-dir --disable-pip-version-check gunicorn==19.9.0 '\
 '&& python2.7 -OO -m compileall -x node_modules /pgadmin4 '\
 '&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
