@@ -13,11 +13,12 @@ ARG CONTENTIMAGE1="huggla/pgadmin4-node_build:$PGADMIN_VERSION"
 ARG CONTENTSOURCE1="/pgadmin4"
 ARG CONTENTDESTINATION1="/pgadmin4"
 ARG BASEIMAGE="huggla/sam-content:python-$PYTHON_VERSION"
+ARG DOWNLOADS="https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v$PGADMIN_VERSION/source/pgadmin4-$PGADMIN_VERSION.tar.gz"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   cp -a /pgadmin4 /finalfs/ '\
-'&& pip install --no-cache-dir --disable-pip-version-check --requirement /pgadmin4/requirements.txt '\
+'&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt '\
 '&& pip install --no-cache-dir --disable-pip-version-check gunicorn==19.9.0 '\
 '&& python2.7 -OO -m compileall -x node_modules pgadmin4 '\
 '&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
