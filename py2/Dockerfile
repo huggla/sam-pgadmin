@@ -57,6 +57,7 @@ ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
 ENV VAR_LINUX_USER="postgres" \
+# Needs sync from coreutils! Workaround: set VAR_LINUX_USER=root
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
     VAR_THREADS="1" \
     VAR_param_DEFAULT_SERVER="'0.0.0.0'" \
