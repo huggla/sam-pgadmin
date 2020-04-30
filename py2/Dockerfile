@@ -37,8 +37,6 @@ FROM ${CONTENTIMAGE5:-scratch} as content5
 FROM ${INITIMAGE:-${BASEIMAGE:-huggla/secure_and_minimal:$SaM_VERSION-base}} as init
 # Generic template (don't edit) </END>
 
-RUN mkdir /environment
-
 # =========================================================================
 # Build
 # =========================================================================
