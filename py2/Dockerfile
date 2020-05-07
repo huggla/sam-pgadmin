@@ -9,12 +9,16 @@ ARG SaM_VERSION="dev"
 ARG IMAGETYPE="application"
 ARG PGADMIN_VERSION="4.20"
 ARG PYTHON_VERSION="2.7.17"
+ARG COREUTILS_VERSION="8.32"
 ARG CONTENTIMAGE1="huggla/pgadmin4-node_build:$PGADMIN_VERSION"
 ARG CONTENTSOURCE1="/pgadmin4"
 ARG CONTENTDESTINATION1="/pgadmin4"
 ARG CONTENTIMAGE2="huggla/sam-content:python-$PYTHON_VERSION"
 ARG CONTENTSOURCE2="/content-dev"
 ARG CONTENTDESTINATION2="/"
+ARG CONTENTIMAGE3="huggla/sam-content:coreutils-$COREUTILS_VERSION"
+ARG CONTENTSOURCE3="/content-app/usr/bin/sync"
+ARG CONTENTDESTINATION3="/finalfs/usr/bin/"
 ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
 ARG DOWNLOADS="https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v$PGADMIN_VERSION/source/pgadmin4-$PGADMIN_VERSION.tar.gz"
 ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
@@ -29,7 +33,7 @@ ARG BUILDCMDS=\
 '&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
 "&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
 ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.json /pgadmin4/webpack* /pgadmin4/yarn.lock /pgadmin4/.e* /pgadmin4/.p*"
-ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
+ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn /usr/bin/sync"
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
