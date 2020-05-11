@@ -16,9 +16,6 @@ ARG CONTENTDESTINATION1="/pgadmin4"
 ARG CONTENTIMAGE2="huggla/sam-content:python-$PYTHON_VERSION"
 ARG CONTENTSOURCE2="/content-dev"
 ARG CONTENTDESTINATION2="/"
-#ARG CONTENTIMAGE3="huggla/sam-content:coreutils-$COREUTILS_VERSION"
-#ARG CONTENTSOURCE3="/content-app/usr/bin/sync"
-#ARG CONTENTDESTINATION3="/finalfs/usr/bin/"
 ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
 ARG DOWNLOADS="https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v$PGADMIN_VERSION/source/pgadmin4-$PGADMIN_VERSION.tar.gz"
 ARG RUNDEPS="coreutils sqlite-libs postgresql-libs libffi libsodium"
@@ -59,9 +56,8 @@ COPY --from=build /finalfs /
 # =========================================================================
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
-
-ENV VAR_LINUX_USER="postgres" \
 # Needs sync from coreutils! Workaround: set VAR_LINUX_USER=root
+ENV VAR_LINUX_USER="postgres" \
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
     VAR_THREADS="1" \
     VAR_param_DEFAULT_SERVER="'0.0.0.0'" \
