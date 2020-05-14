@@ -16,12 +16,12 @@ ARG CONTENTDESTINATION1="/pgadmin4"
 ARG CONTENTIMAGE2="huggla/sam-content:python-$PYTHON_VERSION"
 ARG CONTENTSOURCE2="/content-dev"
 ARG CONTENTDESTINATION2="/"
-ARG CONTENTIMAGE3="huggla/sam-content:coreutils-$COREUTILS_VERSION"
-ARG CONTENTSOURCE3="/content-app/usr/bin/sync"
-ARG CONTENTDESTINATION3="/finalfs/bin/"
+#ARG CONTENTIMAGE3="huggla/sam-content:coreutils-$COREUTILS_VERSION"
+#ARG CONTENTSOURCE3="/content-app/usr/bin/sync"
+#ARG CONTENTDESTINATION3="/finalfs/bin/"
 ARG BASEIMAGE="huggla/sam-python:$PYTHON_VERSION"
 ARG DOWNLOADS="https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v$PGADMIN_VERSION/source/pgadmin4-$PGADMIN_VERSION.tar.gz"
-ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium"
+ARG RUNDEPS="sqlite-libs postgresql-libs libffi libsodium coreutils"
 ARG BUILDDEPS="postgresql-dev libffi-dev libsodium-dev sqlite-dev"
 ARG BUILDCMDS=\
 '   cp -a /pgadmin4 /finalfs/ '\
@@ -33,7 +33,7 @@ ARG BUILDCMDS=\
 '&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
 "&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
 ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.json /pgadmin4/webpack* /pgadmin4/yarn.lock /pgadmin4/.e* /pgadmin4/.p*"
-ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn /bin/sync"
+ARG EXECUTABLES="/usr/bin/python2.7 /usr/bin/gunicorn"
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
@@ -60,7 +60,8 @@ COPY --from=build /finalfs /
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
-ENV VAR_LINUX_USER="postgres" \
+ENV VAR_LINUX_USER="root" \
+# VAR_LINUX_USER="postgres" \
 # Needs sync from coreutils! Workaround: set VAR_LINUX_USER=root
     VAR_CONFIG_FILE="$CONFIG_DIR/config_local.py" \
     VAR_THREADS="1" \
