@@ -1,45 +1,70 @@
-ARG TAG="20190220"
-ARG CONTENTIMAGE1="huggla/pgadmin4:py3-$TAG"
-ARG CONTENTSOURCE1="/apps"
-ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
-ARG INITCMDS="chroot /buildfs /usr/bin/pip3 --no-cache-dir uninstall --yes pip"
-ARG BUILDCMDS=\
-"   sed -i 's|#!/usr/bin/python3.6|#!/usr/local/bin/python3.6|' /imagefs/usr/bin/gunicorn"
-ARG STARTUPEXECUTABLES="/usr/bin/python3.6 /usr/bin/gunicorn"
+# Secure and Minimal image of Pgadmin
+# https://hub.docker.com/repository/docker/huggla/sam-pgadmin
 
-#--------Generic template (don't edit)--------
+# =========================================================================
+# Init
+# =========================================================================
+# ARGs (can be passed to Build/Final) <BEGIN>
+ARG SaM_VERSION="2.0.6-3.16"
+ARG IMAGETYPE="application"
+ARG PGADMIN_VERSION="6.13"
+ARG PYTHON_VERSION="2.7.17"
+ARG COREUTILS_VERSION="8.32"
+ARG CONTENTIMAGE1="dpage/pgadmin4:$PGADMIN_VERSION"
+ARG RUNDEPS="python3 postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap"
+ARG BUILDDEPS=""
+ARG BUILDCMDS=\
+'   cp -a venv pgadmin4 /finalfs/ '\
+'&& cp -a usr/local/pgsql /finalfs/usr/local/ '\
+'&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '\
+
+
+#"&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt "\
+#'&& pip install --no-cache-dir --disable-pip-version-check gunicorn '\
+#'&& python2.7 -OO -m compileall -x node_modules /pgadmin4 '\
+#'&& cp -a /usr/bin/gunicorn /finalfs/usr/bin/ '\
+#'&& pip uninstall --no-cache-dir --disable-pip-version-check --yes pip '\
+#'&& cp -a /usr/lib/python2.7/site-packages /finalfs/usr/lib/python2.7/ '\
+#"&& sed -i 's|#!/usr/bin/python2.7|#!/usr/local/bin/python2.7|' /finalfs/usr/bin/gunicorn"
+ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.json /pgadmin4/webpack* /pgadmin4/yarn.lock /pgadmin4/.e* /pgadmin4/.p*"
+ARG REMOVEDIRS="/pgadmin4/docs"
+ARG MAKEDIRS="/var/lib/pgadmin"
+ARG LINUXUSEROWNED="/var/lib/pgadmin /pgadmin4/config_distro.py"
+
+ARG EXECUTABLES="/usr/bin/python3.10 /venv/bin/gunicorn /bin/sync"
+# ARGs (can be passed to Build/Final) </END>
+
+#ARG TAG="20190220"
+#ARG CONTENTIMAGE1="huggla/pgadmin4:py3-$TAG"
+#ARG CONTENTSOURCE1="/apps"
+#ARG RUNDEPS="python3 postgresql-libs libressl2.7-libssl"
+#ARG INITCMDS="chroot /buildfs /usr/bin/pip3 --no-cache-dir uninstall --yes pip"
+#ARG BUILDCMDS=\
+#"   sed -i 's|#!/usr/bin/python3.6|#!/usr/local/bin/python3.6|' /imagefs/usr/bin/gunicorn"
+#ARG STARTUPEXECUTABLES="/usr/bin/python3.6 /usr/bin/gunicorn"
+
+# Generic template (don't edit) <BEGIN>
 FROM ${CONTENTIMAGE1:-scratch} as content1
 FROM ${CONTENTIMAGE2:-scratch} as content2
 FROM ${CONTENTIMAGE3:-scratch} as content3
-FROM ${INITIMAGE:-${BASEIMAGE:-huggla/base:$TAG}} as init
-FROM ${BUILDIMAGE:-huggla/build} as build
-FROM ${BASEIMAGE:-huggla/base:$TAG} as image
-ARG CONTENTSOURCE1
-ARG CONTENTSOURCE1="${CONTENTSOURCE1:-/}"
-ARG CONTENTDESTINATION1
-ARG CONTENTDESTINATION1="${CONTENTDESTINATION1:-/buildfs/}"
-ARG CONTENTSOURCE2
-ARG CONTENTSOURCE2="${CONTENTSOURCE2:-/}"
-ARG CONTENTDESTINATION2
-ARG CONTENTDESTINATION2="${CONTENTDESTINATION2:-/buildfs/}"
-ARG CONTENTSOURCE3
-ARG CONTENTSOURCE3="${CONTENTSOURCE3:-/}"
-ARG CONTENTDESTINATION3
-ARG CONTENTDESTINATION3="${CONTENTDESTINATION3:-/buildfs/}"
-ARG CLONEGITSDIR
-ARG DOWNLOADSDIR
-ARG MAKEDIRS
-ARG MAKEFILES
-ARG EXECUTABLES
-ARG STARTUPEXECUTABLES
-ARG EXPOSEFUNCTIONS
-ARG GID0WRITABLES
-ARG GID0WRITABLESRECURSIVE
-ARG LINUXUSEROWNED
-COPY --from=build /imagefs /
-RUN [ -n "$LINUXUSEROWNED" ] && chown 102 $LINUXUSEROWNED || true
-#---------------------------------------------
+FROM ${CONTENTIMAGE4:-scratch} as content4
+FROM ${CONTENTIMAGE5:-scratch} as content5
+FROM ${BASEIMAGE:-huggla/secure_and_minimal:$SaM_VERSION-base} as base
+FROM ${INITIMAGE:-scratch} as init
+# Generic template (don't edit) </END>
 
+# =========================================================================
+# Build
+# =========================================================================
+# Generic template (don't edit) <BEGIN>
+FROM ${BUILDIMAGE:-huggla/secure_and_minimal:$SaM_VERSION-build} as build
+FROM ${BASEIMAGE:-huggla/secure_and_minimal:$SaM_VERSION-base} as final
+COPY --from=build /finalfs /
+# Generic template (don't edit) </END>
+
+# =========================================================================
+# Final
+# =========================================================================
 ARG CONFIG_DIR="/etc/pgadmin"
 ARG DATA_DIR="/pgdata"
 
