@@ -11,7 +11,7 @@ ARG PGADMIN_VERSION="6.13"
 ARG PYTHON_VERSION="2.7.17"
 ARG COREUTILS_VERSION="8.32"
 ARG CONTENTIMAGE1="dpage/pgadmin4:$PGADMIN_VERSION"
-ARG RUNDEPS="python3 postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap"
+ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap"
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
 '   cp -a venv pgadmin4 entrypoint.sh /finalfs/ '\
