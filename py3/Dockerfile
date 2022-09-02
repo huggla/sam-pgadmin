@@ -15,7 +15,7 @@ ARG RUNDEPS="python3 postfix krb5-libs libjpeg-turbo shadow libedit libldap libc
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
 '   cp -a venv pgadmin4 /finalfs/ '\
-'&& cp -a usr/local/pgsql /finalfs/usr/local/ '\
+'&& cp -a usr/local/pgsql* /finalfs/usr/local/ '\
 '&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '
 #"&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt "\
 #'&& pip install --no-cache-dir --disable-pip-version-check gunicorn '\
