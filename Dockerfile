@@ -31,7 +31,7 @@ ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.j
 ARG REMOVEDIRS="/pgadmin4/docs"
 ARG MAKEDIRS="/var/lib/pgadmin"
 ARG LINUXUSEROWNED="/var/lib/pgadmin /pgadmin4/config_distro.py"
-ARG EXECUTABLES="/usr/bin/python3 /usr/bin/python3.10 /venv/bin/gunicorn /bin/sync"
+ARG EXECUTABLES="/usr/bin/python3.10 /venv/bin/gunicorn /bin/sync"
 # ARGs (can be passed to Build/Final) </END>
 
 #ARG TAG="20190220"
