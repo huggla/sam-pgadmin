@@ -7,7 +7,7 @@
 
 if [ "$isFirstRun" == "true" ]
 then
-   chmod go-rwx /usr/bin/*
+   find /usr/bin ! -type l -exec chmod g-rwx {} \;
    chmod g+x /usr/bin
    initPgadminConfigFile
    initPgadminDataDirs
