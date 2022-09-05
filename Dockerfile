@@ -14,7 +14,7 @@ ARG CONTENTIMAGE1="huggla/sam-content:coreutils-$COREUTILS_VERSION"
 ARG CONTENTSOURCE1="/content-app/usr/bin/sync"
 ARG CONTENTDESTINATION1="/tmp/finalfs/bin/"
 ARG CONTENTIMAGE2="dpage/pgadmin4:$PGADMIN_VERSION"
-ARG RUNDEPS="python3 postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap gawk"
+ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap gawk"
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
 '   cp -a pgadmin4 entrypoint.sh /finalfs/ '\
