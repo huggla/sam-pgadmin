@@ -7,6 +7,8 @@
 
 if [ "$isFirstRun" == "true" ]
 then
+   chmod go-rwx /usr/bin/*
+   chmod g+x /usr/bin
    initPgadminConfigFile
    initPgadminDataDirs
    gunicornCmdArgs="GUNICORN_CMD_ARGS=\"--pythonpath /pgadmin4 -b 0.0.0.0:5050 --threads $VAR_THREADS --access-logfile - --disable-redirect-access-to-syslog True"
