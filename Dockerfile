@@ -20,7 +20,7 @@ ARG BUILDCMDS=\
 '   cp -a pgadmin4 entrypoint.sh /finalfs/ '\
 '&& cp -a usr/local/pgsql* /finalfs/usr/local/ '\
 '&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '\
-'&& cp -a venv /finalfs/ '\
+'&& cp -a venv /finalfs/ '
 #'&& mkdir -p /finalfs/venv/bin '\
 #'&& cp -a venv/bin/gunicorn /finalfs/venv/bin/ '\
 #'&& cp -a venv/lib venv/share venv/pyvenv.cfg /finalfs/venv/ '\
