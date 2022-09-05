@@ -14,7 +14,7 @@ ARG CONTENTIMAGE1="huggla/sam-content:coreutils-$COREUTILS_VERSION"
 ARG CONTENTSOURCE1="/content-app/usr/bin/sync"
 ARG CONTENTDESTINATION1="/tmp/finalfs/bin/"
 ARG CONTENTIMAGE2="dpage/pgadmin4:$PGADMIN_VERSION"
-ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap"
+ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap gawk"
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
 '   cp -a venv pgadmin4 entrypoint.sh /finalfs/ '\
@@ -31,7 +31,7 @@ ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.j
 ARG REMOVEDIRS="/pgadmin4/docs"
 ARG MAKEDIRS="/var/lib/pgadmin"
 ARG LINUXUSEROWNED="/var/lib/pgadmin /pgadmin4/config_distro.py"
-ARG EXECUTABLES="/usr/bin/python3.10 /venv/bin/gunicorn /bin/sync"
+ARG EXECUTABLES="/usr/bin/python3.10 /venv/bin/gunicorn /bin/sync /usr/bin/awk"
 # ARGs (can be passed to Build/Final) </END>
 
 #ARG TAG="20190220"
