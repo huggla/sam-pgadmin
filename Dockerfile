@@ -95,3 +95,5 @@ ENV VAR_LINUX_USER="postgres" \
 USER starter
 ONBUILD USER root
 #---------------------------------------------
+
+WORKDIR /pgadmin4
