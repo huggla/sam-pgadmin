@@ -9,9 +9,12 @@ ARG SaM_VERSION="2.0.6-3.16"
 ARG IMAGETYPE="application"
 ARG PGADMIN_VERSION="6.13"
 ARG PYTHON_VERSION="2.7.17"
-ARG COREUTILS_VERSION="8.32"
-ARG CONTENTIMAGE1="dpage/pgadmin4:$PGADMIN_VERSION"
-ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap coreutils"
+ARG COREUTILS_VERSION="9.1"
+ARG CONTENTIMAGE1="huggla/sam-content:coreutils-$COREUTILS_VERSION"
+ARG CONTENTSOURCE1="/content-app/usr/bin/sync"
+ARG CONTENTDESTINATION1="/tmp/finalfs/bin/"
+ARG CONTENTIMAGE2="dpage/pgadmin4:$PGADMIN_VERSION"
+ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap"
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
 '   cp -a venv pgadmin4 entrypoint.sh /finalfs/ '\
@@ -28,7 +31,6 @@ ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.j
 ARG REMOVEDIRS="/pgadmin4/docs"
 ARG MAKEDIRS="/var/lib/pgadmin"
 ARG LINUXUSEROWNED="/var/lib/pgadmin /pgadmin4/config_distro.py"
-
 ARG EXECUTABLES="/usr/bin/python3.10 /venv/bin/gunicorn /bin/sync"
 # ARGs (can be passed to Build/Final) </END>
 
