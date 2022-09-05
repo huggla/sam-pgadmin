@@ -22,7 +22,7 @@ ARG BUILDCMDS=\
 '&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '\
 '&& mkdir -p /finalfs/venv/bin '\
 '&& cp -a venv/bin/gunicorn /finalfs/venv/bin/ '\
-'&& cp -a venv/lib venv/pyvenv.cfg /finalfs/venv/ '\
+'&& cp -a venv/lib venv/share venv/pyvenv.cfg /finalfs/venv/ '\
 '&& cd /finalfs/venv/bin '\
 '&& ln -s ../../usr/local/bin/python3.10 python3 '
 #"&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt "\
