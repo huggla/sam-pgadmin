@@ -17,9 +17,14 @@ ARG CONTENTIMAGE2="dpage/pgadmin4:$PGADMIN_VERSION"
 ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap gawk"
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
-'   cp -a venv pgadmin4 entrypoint.sh /finalfs/ '\
+'   cp -a pgadmin4 entrypoint.sh /finalfs/ '\
 '&& cp -a usr/local/pgsql* /finalfs/usr/local/ '\
-'&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '
+'&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '\
+'&& mkdir -p /finalfs/venv/bin '\
+'&& cp -a venv/bin/gunicorn /finalfs/venv/bin/ '\
+'&& cp -a venv/lib venv/pyvenv.cfg /finalfs/venv/ '\
+'&& cd /finalfs/venv/bin '\
+'&& ln -s ../../usr/local/bin/python3.10 python3 '
 #"&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt "\
 #'&& pip install --no-cache-dir --disable-pip-version-check gunicorn '\
 #'&& python2.7 -OO -m compileall -x node_modules /pgadmin4 '\
