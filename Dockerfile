@@ -14,17 +14,18 @@ ARG CONTENTIMAGE1="huggla/sam-content:coreutils-$COREUTILS_VERSION"
 ARG CONTENTSOURCE1="/content-app/usr/bin/sync"
 ARG CONTENTDESTINATION1="/tmp/finalfs/bin/"
 ARG CONTENTIMAGE2="dpage/pgadmin4:$PGADMIN_VERSION"
-ARG RUNDEPS="python3 py3-setuptools postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap gawk"
+ARG RUNDEPS="postfix krb5-libs libjpeg-turbo shadow libedit libldap libcap gawk"
 ARG BUILDDEPS=""
 ARG BUILDCMDS=\
 '   cp -a pgadmin4 entrypoint.sh /finalfs/ '\
 '&& cp -a usr/local/pgsql* /finalfs/usr/local/ '\
 '&& cp -a usr/lib/libpq.so* /finalfs/usr/lib/ '\
-'&& mkdir -p /finalfs/venv/bin '\
-'&& cp -a venv/bin/gunicorn /finalfs/venv/bin/ '\
-'&& cp -a venv/lib venv/share venv/pyvenv.cfg /finalfs/venv/ '\
-'&& cd /finalfs/venv/bin '\
-'&& ln -s ../../usr/local/bin/python3.10 python3 '
+'&& cp -a venv /finalfs/ '\
+#'&& mkdir -p /finalfs/venv/bin '\
+#'&& cp -a venv/bin/gunicorn /finalfs/venv/bin/ '\
+#'&& cp -a venv/lib venv/share venv/pyvenv.cfg /finalfs/venv/ '\
+#'&& cd /finalfs/venv/bin '\
+#'&& ln -s ../../usr/local/bin/python3.10 python3 '
 #"&& pip install --no-cache-dir --disable-pip-version-check --requirement pgadmin4-$PGADMIN_VERSION/requirements.txt "\
 #'&& pip install --no-cache-dir --disable-pip-version-check gunicorn '\
 #'&& python2.7 -OO -m compileall -x node_modules /pgadmin4 '\
@@ -36,7 +37,7 @@ ARG REMOVEFILES="/pgadmin4/babel.cfg /pgadmin4/karma.conf.js /pgadmin4/package.j
 ARG REMOVEDIRS="/pgadmin4/docs"
 ARG MAKEDIRS="/var/lib/pgadmin"
 ARG LINUXUSEROWNED="/var/lib/pgadmin /pgadmin4/config_distro.py"
-ARG EXECUTABLES="/usr/bin/python3.10 /venv/bin/gunicorn /bin/sync /usr/bin/gawk"
+ARG EXECUTABLES="/venv/bin/python3.10 /venv/bin/gunicorn /bin/sync /usr/bin/gawk"
 # ARGs (can be passed to Build/Final) </END>
 
 #ARG TAG="20190220"
